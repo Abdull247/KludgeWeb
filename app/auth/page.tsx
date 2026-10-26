@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Logo, LogoMark } from "@/components/Logo";
+import { Logo } from "@/components/Logo";
 import { ArrowLeft, Check, Github, Star, GoogleIcon } from "@/components/Icons";
 import { ComingSoonToast, useComingSoonToast } from "@/components/Toast";
 import styles from "./auth.module.css";
@@ -33,9 +33,6 @@ export default function AuthPage() {
 
         <div className={styles.body}>
           <div className={styles.intro}>
-            <div className={`glass ${styles.markWrap}`}>
-              <LogoMark />
-            </div>
             <h1 className={`text-gradient ${styles.title}`}>Welcome to Kludge</h1>
             <p className={styles.sub}>Sign in to post your work and save what you love.</p>
           </div>

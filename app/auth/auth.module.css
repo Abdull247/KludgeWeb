@@ -54,16 +54,7 @@
   animation: fade-up 0.6s ease both;
 }
 
-.markWrap {
-  display: grid;
-  height: 3rem;
-  width: 3rem;
-  place-items: center;
-  border-radius: 1rem;
-}
-
 .title {
-  margin-top: 1.75rem;
   font-size: 2.25rem;
   font-weight: 500;
   letter-spacing: -0.025em;

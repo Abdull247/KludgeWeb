@@ -168,15 +168,6 @@
   mask-image: radial-gradient(ellipse at top, black, transparent 70%);
 }
 
-.overlayHint {
-  position: relative;
-  margin-bottom: 1rem;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--muted-foreground);
-}
-
 .overlayList {
   position: relative;
   display: flex;

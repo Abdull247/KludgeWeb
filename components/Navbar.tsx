@@ -78,7 +78,6 @@ export function Navbar() {
         aria-hidden={!open}
       >
         <div className={`grid-lines ${styles.overlayGrid}`} />
-        <p className={`font-mono ${styles.overlayHint}`}>~/kludge/menu</p>
         <ul className={styles.overlayList}>
           {NAV.map((n, i) => (
             <li
