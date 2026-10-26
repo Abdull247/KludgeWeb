@@ -1,0 +1,18 @@
+{
+  "plugin": "org.smartide.plugin.framework.javascript.nextjs",
+  "run": "npm install && npx next dev --webpack",
+  "intelligence": {
+    ".json": {
+      "enabled": true,
+      "run": "vscode-json-language-server --stdio"
+    },
+    ".tsx": {
+      "enabled": true,
+      "run": "typescript-language-server --stdio"
+    },
+    ".md": {
+      "enabled": true,
+      "run": "marksman server"
+    }
+  }
+}
