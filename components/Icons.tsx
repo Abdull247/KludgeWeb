@@ -118,6 +118,98 @@ export function X({ size, className }: IconProps) {
   );
 }
 
+export function HomeIcon({ size, className, strokeWidth }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth}>
+      <path d="M3 10.5 12 3l9 7.5" />
+      <path d="M5.5 9.5V21h13V9.5" />
+    </Svg>
+  );
+}
+
+export function CompassIcon({ size, className, strokeWidth }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth}>
+      <circle cx="12" cy="12" r="9" />
+      <polygon points="16.2 7.8 10.5 10.5 7.8 16.2 13.5 13.5 16.2 7.8" />
+    </Svg>
+  );
+}
+
+export function PlusIcon({ size, className, strokeWidth }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth}>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
+    </Svg>
+  );
+}
+
+export function BookmarkIcon({ size, className, strokeWidth }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth}>
+      <path d="M6 4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21l-6-3.2L6 21Z" />
+    </Svg>
+  );
+}
+
+export function UserIcon({ size, className, strokeWidth }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth}>
+      <circle cx="12" cy="8" r="3.2" />
+      <path d="M5.2 19.2a6.8 6.8 0 0 1 13.6 0" />
+    </Svg>
+  );
+}
+
+export function SearchIcon({ size, className }: IconProps) {
+  return (
+    <Svg size={size} className={className}>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m16.2 16.2 4.3 4.3" />
+    </Svg>
+  );
+}
+
+export function SlidersIcon({ size, className }: IconProps) {
+  return (
+    <Svg size={size} className={className}>
+      <path d="M4 8h16" />
+      <path d="M4 16h16" />
+      <circle cx="9" cy="8" r="2.1" fill="currentColor" />
+      <circle cx="15" cy="16" r="2.1" fill="currentColor" />
+    </Svg>
+  );
+}
+
+export function ExternalIcon({ size, className }: IconProps) {
+  return (
+    <Svg size={size} className={className}>
+      <path d="M14 5h5v5" />
+      <path d="M10 14 19 5" />
+      <path d="M19 13v6a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6" />
+    </Svg>
+  );
+}
+
+export function ChevronUp({ size, className }: IconProps) {
+  return (
+    <Svg size={size} className={className}>
+      <path d="m6 15 6-6 6 6" />
+    </Svg>
+  );
+}
+
+export function InfoIcon({ size, className }: IconProps) {
+  return (
+    <Svg size={size} className={className}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v6" />
+      <path d="M12 8h.01" />
+    </Svg>
+  );
+}
+
 export function GoogleIcon() {
   return (
     <svg viewBox="0 0 24 24" width={18} height={18} className="icon" aria-hidden>
