@@ -1,0 +1,77 @@
+.wrap {
+  position: fixed;
+  z-index: 80;
+  inset: auto 0 1.5rem 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.card {
+  position: relative;
+  width: min(92vw, 380px);
+  overflow: hidden;
+  border-radius: 1rem;
+  padding: 1rem;
+  pointer-events: auto;
+  animation: toast-in 0.45s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.iconWrap {
+  display: grid;
+  height: 2.25rem;
+  width: 2.25rem;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 0.75rem;
+  border: 1px solid oklch(0.72 0.16 240 / 30%);
+  background: oklch(0.72 0.16 240 / 15%);
+  color: var(--primary);
+}
+
+.spin {
+  display: grid;
+  place-items: center;
+  animation: hourglass 2.4s linear infinite;
+}
+
+.copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.sub {
+  margin-top: 0.125rem;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--muted-foreground);
+}
+
+.close {
+  color: var(--muted-foreground);
+  transition: color 0.2s ease;
+}
+
+.close:hover {
+  color: var(--foreground);
+}
+
+.bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: var(--primary);
+  animation: toast-bar 4s linear forwards;
+}

@@ -1,0 +1,441 @@
+.page {
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+.hero {
+  position: relative;
+  padding-top: 9rem;
+  text-align: center;
+}
+
+.heroInner {
+  padding: 0 1.25rem;
+}
+
+.pillIn {
+  animation: fade-up 0.6s ease both;
+}
+
+.title {
+  margin: 1.5rem auto 0;
+  max-width: 56rem;
+  font-size: 2.6rem;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  animation: hero-title 0.8s ease 0.1s both;
+}
+
+.lede {
+  margin: 1.5rem auto 0;
+  max-width: 36rem;
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  animation: fade-in 0.6s ease 0.35s both;
+}
+
+.ctas {
+  margin-top: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  animation: fade-up 0.6s ease 0.5s both;
+}
+
+.ctaPrimary,
+.ctaGhost {
+  width: 100%;
+}
+
+.ctaPrimary .arrow {
+  transition: transform 0.2s ease;
+}
+
+.ctaPrimary:hover .arrow {
+  transform: translateX(2px);
+}
+
+.horizonWrap {
+  position: relative;
+  margin-top: 4rem;
+  height: 340px;
+}
+
+.horizonClip {
+  pointer-events: none;
+  position: absolute;
+  inset: -10rem 0 0;
+  overflow: hidden;
+  animation: scale-in 1.4s ease 0.4s both;
+}
+
+.horizonClip :global(.horizon) {
+  top: 10rem;
+}
+
+.scrollCue {
+  position: absolute;
+  left: 50%;
+  top: 6rem;
+  display: grid;
+  height: 3.5rem;
+  width: 2.5rem;
+  place-items: center;
+  border-radius: 9999px;
+  transform: translateX(-50%);
+  transition: background 0.2s ease;
+  animation: fade-up 0.6s ease 1.2s both;
+}
+
+.scrollCue:hover {
+  background: oklch(0.97 0.005 250 / 10%);
+}
+
+.scrollBounce {
+  display: grid;
+  place-items: center;
+  animation: bounce-y 1.8s ease-in-out infinite;
+  color: oklch(0.97 0.005 250 / 80%);
+}
+
+.marqueeSection {
+  padding: 4rem 0;
+}
+
+.marqueeLabel {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.marqueeMask {
+  position: relative;
+  margin-top: 2rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 15%, black 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 15%, black 85%, transparent);
+}
+
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  gap: 0.75rem;
+  animation: marquee 40s linear infinite;
+}
+
+.chip {
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: oklch(0.97 0.005 250 / 80%);
+}
+
+.why {
+  margin: 0 auto;
+  max-width: 72rem;
+  scroll-margin-top: 6rem;
+  padding: 5rem 1.25rem;
+}
+
+.whyGrid {
+  display: grid;
+  gap: 3rem;
+}
+
+.whySticky {
+  position: relative;
+}
+
+.whyTitle {
+  margin-top: 1.25rem;
+  font-size: 1.875rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.whyCopy {
+  margin-top: 1rem;
+  max-width: 20rem;
+  color: var(--muted-foreground);
+}
+
+.featureList {
+  border-top: 1px solid var(--border);
+}
+
+.featureItem {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  column-gap: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 0;
+}
+
+.featureNum {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  transition: color 0.2s ease;
+}
+
+.featureItem:hover .featureNum {
+  color: var(--primary);
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+}
+
+.featureItem:hover .featureTitle {
+  transform: translateX(4px);
+}
+
+.featureDesc {
+  margin-top: 0.5rem;
+  max-width: 28rem;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: var(--muted-foreground);
+}
+
+.featureTag {
+  grid-column-start: 2;
+  margin-top: 1rem;
+  align-self: start;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-foreground);
+}
+
+.how {
+  margin: 0 auto;
+  max-width: 72rem;
+  padding: 5rem 1.25rem;
+}
+
+.howHead {
+  text-align: center;
+}
+
+.howTitle {
+  margin: 1.25rem auto 0;
+  max-width: 42rem;
+  font-size: 1.875rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.steps {
+  position: relative;
+  margin-top: 4rem;
+  display: grid;
+  gap: 3rem;
+}
+
+.stepsLine {
+  position: absolute;
+  bottom: 0;
+  left: 1.125rem;
+  top: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.step {
+  position: relative;
+  padding-left: 3.5rem;
+}
+
+.stepNum {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  height: 2.25rem;
+  width: 2.25rem;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.stepTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.stepDesc {
+  margin-top: 0.5rem;
+  max-width: 20rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.ctaBanner {
+  padding: 6rem 1.25rem;
+}
+
+.ctaLink {
+  display: block;
+  margin: 0 auto;
+  max-width: 72rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 3.5rem 0;
+}
+
+.ctaInner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.ctaKicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted-foreground);
+}
+
+.ctaTitle {
+  margin-top: 1rem;
+  max-width: 48rem;
+  font-size: 2.25rem;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.ctaAction {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.ctaIcon {
+  display: grid;
+  height: 3rem;
+  width: 3rem;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--ink);
+  color: var(--ink-foreground);
+  transition: transform 0.25s ease;
+}
+
+.ctaLink:hover .ctaIcon {
+  transform: rotate(45deg);
+}
+
+@media (min-width: 640px) {
+  .hero {
+    padding-top: 11rem;
+  }
+
+  .title {
+    font-size: 3.75rem;
+  }
+
+  .lede {
+    font-size: 1.125rem;
+  }
+
+  .ctas {
+    flex-direction: row;
+  }
+
+  .ctaPrimary,
+  .ctaGhost {
+    width: auto;
+  }
+
+  .horizonWrap {
+    margin-top: 5rem;
+    height: 420px;
+  }
+
+  .scrollCue {
+    top: 7rem;
+  }
+
+  .whyTitle,
+  .howTitle {
+    font-size: 3rem;
+  }
+
+  .featureItem {
+    grid-template-columns: 4rem 1fr auto;
+  }
+
+  .featureTag {
+    grid-column-start: 3;
+    margin-top: 0.375rem;
+  }
+
+  .ctaTitle {
+    font-size: 3.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: 4.5rem;
+  }
+
+  .whyGrid {
+    grid-template-columns: 1fr 1.6fr;
+  }
+
+  .whySticky {
+    position: sticky;
+    top: 7rem;
+  }
+
+  .steps {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .stepsLine {
+    bottom: auto;
+    left: 0;
+    right: 0;
+    top: 1.125rem;
+    height: 1px;
+    width: auto;
+  }
+
+  .step {
+    padding-left: 0;
+  }
+
+  .stepNum {
+    position: relative;
+  }
+
+  .stepTitle {
+    margin-top: 2rem;
+  }
+
+  .ctaInner {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}

@@ -1,0 +1,31 @@
+.page {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+.box {
+  max-width: 28rem;
+  text-align: center;
+}
+
+.code {
+  font-size: 4.5rem;
+  font-weight: 600;
+}
+
+.copy {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.home {
+  margin-top: 1.5rem;
+  display: inline-flex;
+  border-radius: 9999px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+}
