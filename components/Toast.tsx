@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Hourglass, X } from "./Icons";
+import { X } from "./Icons";
 import styles from "./Toast.module.css";
 
 type ToastState = { id: number; provider: string } | null;
@@ -27,7 +27,7 @@ export function ComingSoonToast({
 }) {
   useEffect(() => {
     if (!toast) return;
-    const t = window.setTimeout(onDismiss, 4000);
+    const t = window.setTimeout(onDismiss, 3800);
     return () => window.clearTimeout(t);
   }, [toast, onDismiss]);
 
@@ -35,22 +35,14 @@ export function ComingSoonToast({
 
   return (
     <div className={styles.wrap} key={toast.id}>
-      <div className={`glass-strong ${styles.card}`}>
-        <div className={styles.row}>
-          <div className={styles.iconWrap}>
-            <span className={styles.spin}>
-              <Hourglass size={16} />
-            </span>
-          </div>
-          <div className={styles.copy}>
-            <p className={styles.title}>{toast.provider} sign-in isn&apos;t live yet</p>
-            <p className={styles.sub}>We&apos;re still wiring this up. Check back soon.</p>
-          </div>
-          <button onClick={onDismiss} className={styles.close} aria-label="Dismiss">
-            <X size={16} />
-          </button>
-        </div>
-        <div className={styles.bar} />
+      <div className={styles.card} role="status">
+        <p className={styles.copy}>
+          <span className={styles.provider}>{toast.provider}</span> sign-in isn&apos;t live yet
+        </p>
+        <button onClick={onDismiss} className={styles.close} aria-label="Dismiss">
+          <X size={14} />
+        </button>
+        <span className={styles.bar} />
       </div>
     </div>
   );
