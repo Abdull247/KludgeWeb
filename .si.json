@@ -13,6 +13,18 @@
     ".md": {
       "enabled": true,
       "run": "marksman server"
+    },
+    ".svg": {
+      "enabled": true,
+      "run": "lemminx"
+    },
+    ".ts": {
+      "enabled": true,
+      "run": "typescript-language-server --stdio"
+    },
+    ".css": {
+      "enabled": true,
+      "run": "vscode-css-language-server --stdio"
     }
   }
 }
