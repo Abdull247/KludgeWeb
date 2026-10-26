@@ -2,7 +2,7 @@
 
 import { Spinner } from "./Spinner";
 import { BottomNav } from "./BottomNav";
-import { Logo } from "./Logo";
+import { AppTopBar } from "./AppTopBar";
 import { useAuthProfile } from "@/lib/useAuthProfile";
 import styles from "./AppShell.module.css";
 
@@ -30,9 +30,7 @@ export function AppShell({
       <div className={styles.horizonClip} aria-hidden>
         <div className="horizon" />
       </div>
-      <header className={styles.top}>
-        <Logo />
-      </header>
+      <AppTopBar />
       <main className={styles.main}>
         <p className={styles.kicker}>@{profile.username}</p>
         <h1 className={`text-gradient ${styles.title}`}>{title}</h1>

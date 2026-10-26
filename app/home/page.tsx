@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Logo } from "@/components/Logo";
 import { Spinner } from "@/components/Spinner";
 import { Toast, useToast } from "@/components/Toast";
 import { BottomNav } from "@/components/BottomNav";
+import { AppTopBar } from "@/components/AppTopBar";
 import {
   ChevronUp,
   ChevronDown,
   ExternalIcon,
-  InfoIcon,
   PlusIcon,
   SearchIcon,
   SlidersIcon,
@@ -67,12 +66,7 @@ export default function AppHome() {
       </div>
       <div className={`grid-lines ${styles.grid}`} />
 
-      <header className={styles.top}>
-        <Logo />
-        <button type="button" className={styles.info} aria-label="About Kludge">
-          <InfoIcon size={16} />
-        </button>
-      </header>
+      <AppTopBar />
 
       <main className={styles.feed}>
         <section className={styles.hero}>
