@@ -30,7 +30,6 @@ export function BottomNav() {
               aria-label={label}
             >
               <Icon size={20} strokeWidth={active ? 2.2 : 1.8} />
-              {active && <span className={styles.dot} />}
             </Link>
           );
         })}

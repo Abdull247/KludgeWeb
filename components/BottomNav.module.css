@@ -7,7 +7,7 @@
   bottom: max(0.85rem, env(safe-area-inset-bottom));
   display: flex;
   justify-content: center;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
 .bar {
@@ -50,19 +50,14 @@
   color: oklch(0.98 0.003 250);
 }
 
-.dot {
-  position: absolute;
-  bottom: 0.28rem;
-  width: 0.22rem;
-  height: 0.22rem;
-  border-radius: 9999px;
-  background: oklch(0.78 0.16 232);
-  box-shadow: 0 0 8px 1px oklch(0.72 0.16 240 / 70%);
+.active :global(svg) {
+  fill: currentColor;
 }
 
 @media (min-width: 640px) {
   .wrap {
     bottom: 1.25rem;
+    padding: 0 2rem;
   }
 
   .bar {
