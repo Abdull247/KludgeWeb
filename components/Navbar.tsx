@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Logo } from "./Logo";
-import { ArrowUpRight, ChevronDown, Github } from "./Icons";
+import { ArrowRight, ChevronDown, Github } from "./Icons";
 import { NAV } from "@/lib/nav";
 import styles from "./Navbar.module.css";
 
@@ -58,7 +58,7 @@ export function Navbar() {
               <Github size={16} />
               <span className="font-mono">4.2K</span>
             </a>
-            <Link href="/auth" className={`glass ${styles.signIn}`}>
+            <Link href="/auth" className={styles.signIn}>
               Sign in
             </Link>
           </div>
@@ -74,7 +74,7 @@ export function Navbar() {
       </header>
 
       <div
-        className={`${styles.overlay} bg-page ${open ? styles.overlayOpen : ""} ${mounted ? styles.overlayReady : ""}`}
+        className={`${styles.overlay} bg-page-deep ${open ? styles.overlayOpen : ""} ${mounted ? styles.overlayReady : ""}`}
         aria-hidden={!open}
       >
         <div className={`grid-lines ${styles.overlayGrid}`} />
@@ -86,19 +86,20 @@ export function Navbar() {
               className={styles.overlayItem}
               style={{ transitionDelay: open ? `${0.2 + i * 0.06}s` : "0s" }}
             >
-              <Link href={`/${n.slug}`} onClick={() => setOpen(false)} className={`glass ${styles.overlayLink}`}>
-                <span className={styles.overlayCopy}>
-                  <span className={styles.overlayLabel}>{n.label}</span>
-                  <span className={styles.overlaySub}>{n.hint}</span>
-                </span>
-                <ArrowUpRight size={16} className={styles.overlayArrow} />
+              <Link
+                href={`/${n.slug}`}
+                onClick={() => setOpen(false)}
+                className={`${styles.overlayLink} ${i < NAV.length - 1 ? styles.overlayLinkBorder : ""}`}
+              >
+                <span className={styles.overlayLabel}>{n.label}</span>
+                <span className={styles.overlayHintText}>{n.hint}</span>
+                <ArrowRight size={16} className={styles.overlayArrow} />
               </Link>
             </li>
           ))}
         </ul>
         <div className={styles.overlayFooter}>
           <Link href="/auth" onClick={() => setOpen(false)} className={styles.overlaySignIn}>
-            <span className={styles.overlayGlow} />
             Sign in to Kludge
           </Link>
           <a href="https://github.com" target="_blank" rel="noreferrer" className={styles.overlayGithub}>
