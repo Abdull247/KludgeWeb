@@ -22,10 +22,10 @@ export default function Home() {
           </p>
           <div className={styles.ctas}>
             <Link href="/auth" className={`btn-ink ${styles.ctaPrimary}`}>
-              Start sharing <ArrowRight size={16} className={styles.arrow} />
+              Start uploading <ArrowRight size={16} className={styles.arrow} />
             </Link>
             <Link href="/explore" className={`glass btn-glass ${styles.ctaGhost}`}>
-              Browse projects
+              Browse builds
             </Link>
           </div>
         </div>
@@ -44,7 +44,7 @@ export default function Home() {
 
       <section className={styles.marqueeSection}>
         <Reveal>
-          <p className={styles.marqueeLabel}>Works with whatever you&apos;re building in</p>
+          <p className={styles.marqueeLabel}>Bypass the gatekeepers. Explore the categories.</p>
         </Reveal>
         <div className={styles.marqueeMask}>
           <div className={styles.marqueeTrack}>
@@ -62,9 +62,9 @@ export default function Home() {
           <Reveal>
             <div className={styles.whySticky}>
               <Pill>Why Kludge</Pill>
-              <h2 className={`text-gradient ${styles.whyTitle}`}>Less digging. More building.</h2>
+              <h2 className={`text-gradient ${styles.whyTitle}`}>Less gatekeeping. More building.</h2>
               <p className={styles.whyCopy}>
-                One place for the code, the kits and the assets — sorted the way you actually look for them.
+                One place for the modded builds, uncensored models, and unofficial APIs — sorted the way you actually look for them.
               </p>
             </div>
           </Reveal>
@@ -88,7 +88,7 @@ export default function Home() {
       <section className={styles.how}>
         <Reveal className={styles.howHead}>
           <Pill>How it works</Pill>
-          <h2 className={`text-gradient ${styles.howTitle}`}>From your repo to someone&apos;s next project</h2>
+          <h2 className={`text-gradient ${styles.howTitle}`}>From your build to someone&apos;s device</h2>
         </Reveal>
         <ol className={styles.steps}>
           <div className={styles.stepsLine} />
@@ -110,7 +110,7 @@ export default function Home() {
             <div className={styles.ctaInner}>
               <div>
                 <p className={styles.ctaKicker}>Early access is open</p>
-                <h2 className={`text-gradient ${styles.ctaTitle}`}>Your side project deserves an audience.</h2>
+                <h2 className={`text-gradient ${styles.ctaTitle}`}>Your modded build deserves an audience.</h2>
               </div>
               <span className={styles.ctaAction}>
                 Claim your handle
