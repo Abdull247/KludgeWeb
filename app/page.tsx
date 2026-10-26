@@ -20,10 +20,10 @@ export default function Home() {
             </Pill>
           </div>
           <h1 className={`text-gradient ${styles.title}`}>
-            Everything you build with, shared in one place
+            All things unofficial, shared in one place
           </h1>
           <p className={styles.lede}>
-            Projects, starters, UI kits and assets for every stack. Post what you made, grab what you need.
+            Modded APKs, rogue APIs, and AI jailbreaks. Post what you built, download what you need.
           </p>
           <div className={styles.ctas}>
             <Link href="/auth" className={`btn-ink ${styles.ctaPrimary}`}>
