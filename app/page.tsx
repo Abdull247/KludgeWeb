@@ -14,11 +14,6 @@ export default function Home() {
 
       <section className={styles.hero}>
         <div className={styles.heroInner}>
-          <div className={styles.pillIn}>
-            <Pill>
-              <LogoMark size={12} /> Now in early access
-            </Pill>
-          </div>
           <h1 className={`text-gradient ${styles.title}`}>
             All things unofficial, shared in one place
           </h1>
