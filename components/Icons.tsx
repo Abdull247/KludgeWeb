@@ -2,6 +2,7 @@ type IconProps = {
   size?: number;
   className?: string;
   strokeWidth?: number;
+  filled?: boolean;
 };
 
 function Svg({ size = 16, className, strokeWidth = 2, children }: IconProps & { children: React.ReactNode }) {
@@ -118,20 +119,29 @@ export function X({ size, className }: IconProps) {
   );
 }
 
-export function HomeIcon({ size, className, strokeWidth }: IconProps) {
+export function HomeIcon({ size, className, strokeWidth, filled }: IconProps) {
   return (
     <Svg size={size} className={className} strokeWidth={strokeWidth}>
-      <path d="M3 10.5 12 3l9 7.5" />
-      <path d="M5.5 9.5V21h13V9.5" />
+      {filled ? (
+        <path d="M12 3 3 10.5V21h18V10.5Z" fill="currentColor" />
+      ) : (
+        <>
+          <path d="M3 10.5 12 3l9 7.5" />
+          <path d="M5.5 9.5V21h13V9.5" />
+        </>
+      )}
     </Svg>
   );
 }
 
-export function CompassIcon({ size, className, strokeWidth }: IconProps) {
+export function CompassIcon({ size, className, strokeWidth, filled }: IconProps) {
   return (
     <Svg size={size} className={className} strokeWidth={strokeWidth}>
       <circle cx="12" cy="12" r="9" />
-      <polygon points="16.2 7.8 10.5 10.5 7.8 16.2 13.5 13.5 16.2 7.8" />
+      <polygon
+        points="16.2 7.8 10.5 10.5 7.8 16.2 13.5 13.5 16.2 7.8"
+        fill={filled ? "currentColor" : "none"}
+      />
     </Svg>
   );
 }
@@ -145,19 +155,22 @@ export function PlusIcon({ size, className, strokeWidth }: IconProps) {
   );
 }
 
-export function BookmarkIcon({ size, className, strokeWidth }: IconProps) {
+export function BookmarkIcon({ size, className, strokeWidth, filled }: IconProps) {
   return (
     <Svg size={size} className={className} strokeWidth={strokeWidth}>
-      <path d="M6 4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21l-6-3.2L6 21Z" />
+      <path
+        d="M6 4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21l-6-3.2L6 21Z"
+        fill={filled ? "currentColor" : "none"}
+      />
     </Svg>
   );
 }
 
-export function UserIcon({ size, className, strokeWidth }: IconProps) {
+export function UserIcon({ size, className, strokeWidth, filled }: IconProps) {
   return (
     <Svg size={size} className={className} strokeWidth={strokeWidth}>
-      <circle cx="12" cy="8" r="3.2" />
-      <path d="M5.2 19.2a6.8 6.8 0 0 1 13.6 0" />
+      <circle cx="12" cy="8" r="3.2" fill={filled ? "currentColor" : "none"} />
+      <path d="M5.2 19.2a6.8 6.8 0 0 1 13.6 0" fill={filled ? "currentColor" : "none"} />
     </Svg>
   );
 }
