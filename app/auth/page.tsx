@@ -1,27 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { ArrowLeft, Check, Github, Star, GoogleIcon } from "@/components/Icons";
-import { ComingSoonToast, useComingSoonToast } from "@/components/Toast";
+import { Spinner } from "@/components/Spinner";
+import { Toast, useToast } from "@/components/Toast";
+import { api, authStartUrl, type Profile } from "@/lib/api";
 import styles from "./auth.module.css";
 
+type Provider = "github" | "google";
+
 export default function AuthPage() {
+  const router = useRouter();
   const [agreed, setAgreed] = useState(false);
   const [shake, setShake] = useState(0);
-  const { toast, show, dismiss } = useComingSoonToast();
+  const [loading, setLoading] = useState<Provider | null>(null);
+  const { toast, show, dismiss } = useToast();
+  const noticed = useRef(false);
 
-  const go = (p: string) => {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const err = params.get("error");
+    if (err && !noticed.current) {
+      noticed.current = true;
+      show(err, "error");
+      window.history.replaceState({}, "", "/auth");
+    }
+
+    api<Profile>("/api/profile/me").then((res) => {
+      if (!res.data) return;
+      router.replace(res.data.onboardingCompleted ? "/home" : "/onboarding");
+    });
+  }, [router, show]);
+
+  const go = (provider: Provider) => {
+    if (loading) return;
     if (!agreed) {
       setShake((s) => s + 1);
       return;
     }
-    show(p);
+    setLoading(provider);
+    window.location.assign(authStartUrl(provider));
   };
 
   return (
-    <div className={`bg-page ${styles.page}`}>
+    <div className={`bg-app ${styles.page}`}>
       <div className={styles.formCol}>
         <div className={`grid-lines ${styles.formGrid}`} />
         <div className={styles.top}>
@@ -39,16 +64,30 @@ export default function AuthPage() {
 
           <div className={styles.actions}>
             <button
-              onClick={() => go("GitHub")}
+              onClick={() => go("github")}
+              disabled={loading !== null}
               className={`${styles.githubBtn} ${agreed ? "" : styles.disabled}`}
             >
-              <Github size={18} /> Continue with GitHub
+              {loading === "github" ? (
+                <Spinner />
+              ) : (
+                <>
+                  <Github size={18} /> Continue with GitHub
+                </>
+              )}
             </button>
             <button
-              onClick={() => go("Google")}
+              onClick={() => go("google")}
+              disabled={loading !== null}
               className={`glass ${styles.googleBtn} ${agreed ? "" : styles.disabled}`}
             >
-              <GoogleIcon /> Continue with Google
+              {loading === "google" ? (
+                <Spinner />
+              ) : (
+                <>
+                  <GoogleIcon /> Continue with Google
+                </>
+              )}
             </button>
           </div>
 
@@ -135,7 +174,7 @@ export default function AuthPage() {
         <p className={styles.caption}>Ship it. Share it. Someone needs it.</p>
       </div>
 
-      <ComingSoonToast toast={toast} onDismiss={dismiss} />
+      <Toast toast={toast} onDismiss={dismiss} />
     </div>
   );
 }

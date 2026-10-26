@@ -1,0 +1,138 @@
+.page {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.grid {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  -webkit-mask-image: radial-gradient(ellipse at top left, black, transparent 55%);
+  mask-image: radial-gradient(ellipse at top left, black, transparent 55%);
+}
+
+.top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 1.25rem;
+}
+
+.body {
+  position: relative;
+  margin: 0 auto;
+  display: flex;
+  width: 100%;
+  max-width: 26rem;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 1.25rem 5rem;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  animation: fade-up 0.5s ease both;
+}
+
+.title {
+  margin-top: 0.75rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  animation: fade-up 0.55s ease 0.05s both;
+}
+
+.sub {
+  margin-top: 0.65rem;
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+  animation: fade-up 0.55s ease 0.1s both;
+}
+
+.chips {
+  margin-top: 1.75rem;
+  display: flex;
+  gap: 0.5rem;
+  animation: fade-up 0.55s ease 0.15s both;
+}
+
+.chip {
+  display: inline-flex;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.95rem;
+  border-radius: 9999px;
+  border: 1px solid oklch(1 0 0 / 12%);
+  background: oklch(1 0 0 / 4%);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.chip:hover {
+  background: oklch(1 0 0 / 8%);
+  color: var(--foreground);
+}
+
+.chipOn {
+  border-color: oklch(1 0 0 / 80%);
+  background: oklch(0.98 0.003 250);
+  color: var(--ink-foreground);
+}
+
+.chipOn:hover {
+  background: oklch(0.98 0.003 250);
+  color: var(--ink-foreground);
+}
+
+.continue {
+  margin-top: 1rem;
+  display: inline-flex;
+  height: 2.25rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--ink);
+  color: var(--ink-foreground);
+  font-size: 0.8125rem;
+  font-weight: 550;
+  transition: opacity 0.2s ease;
+  animation: fade-up 0.55s ease 0.2s both;
+}
+
+.continue:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.continue:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.center {
+  display: grid;
+  flex: 1;
+  place-items: center;
+}
+
+@media (min-width: 640px) {
+  .top {
+    padding: 1.5rem 2.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}

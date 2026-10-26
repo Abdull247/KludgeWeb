@@ -4,13 +4,14 @@ import { useCallback, useEffect, useState } from "react";
 import { X } from "./Icons";
 import styles from "./Toast.module.css";
 
-type ToastState = { id: number; provider: string } | null;
+export type ToastKind = "success" | "error";
+export type ToastState = { id: number; message: string; kind: ToastKind } | null;
 
-export function useComingSoonToast() {
+export function useToast() {
   const [toast, setToast] = useState<ToastState>(null);
 
-  const show = useCallback((provider: string) => {
-    setToast({ id: Date.now(), provider });
+  const show = useCallback((message: string, kind: ToastKind = "success") => {
+    setToast({ id: Date.now(), message, kind });
   }, []);
 
   const dismiss = useCallback(() => setToast(null), []);
@@ -18,7 +19,7 @@ export function useComingSoonToast() {
   return { toast, show, dismiss };
 }
 
-export function ComingSoonToast({
+export function Toast({
   toast,
   onDismiss,
 }: {
@@ -35,10 +36,8 @@ export function ComingSoonToast({
 
   return (
     <div className={styles.wrap} key={toast.id}>
-      <div className={styles.card} role="status">
-        <p className={styles.copy}>
-          <span className={styles.provider}>{toast.provider}</span> sign-in isn&apos;t live yet
-        </p>
+      <div className={`${styles.card} ${toast.kind === "error" ? styles.error : styles.success}`} role="status">
+        <p className={styles.copy}>{toast.message}</p>
         <button onClick={onDismiss} className={styles.close} aria-label="Dismiss">
           <X size={14} />
         </button>

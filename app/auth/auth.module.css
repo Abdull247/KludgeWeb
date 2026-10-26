@@ -96,6 +96,11 @@
   opacity: 0.9;
 }
 
+.githubBtn:disabled,
+.googleBtn:disabled {
+  cursor: default;
+}
+
 .googleBtn:hover {
   background: oklch(0.97 0.005 250 / 10%);
 }

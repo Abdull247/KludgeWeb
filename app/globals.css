@@ -113,6 +113,12 @@ ol {
   background: var(--gradient-page);
 }
 
+.bg-app {
+  background:
+    radial-gradient(42% 32% at 0% 0%, oklch(0.24 0.055 245 / 42%) 0%, transparent 70%),
+    oklch(0.09 0.004 250);
+}
+
 .bg-page-deep {
   background: radial-gradient(
     120% 70% at 50% -10%,
@@ -395,6 +401,21 @@ ol {
   }
   50% {
     transform: translateY(-4px);
+  }
+}
+
+.spinner {
+  display: inline-block;
+  flex-shrink: 0;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 9999px;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
