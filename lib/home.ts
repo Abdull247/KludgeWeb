@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api, TEST_TOKEN } from "./api";
 
 export type StatTab = "builds" | "creators" | "apis";
 
@@ -226,6 +226,60 @@ export function recordItem(input: CreateItemInput) {
     method: "POST",
     body: JSON.stringify(input),
   });
+}
+
+export type TagDef = {
+  slug: string;
+  label: string;
+};
+
+export function fetchTags() {
+  return api<TagDef[]>("/api/v1/tags");
+}
+
+export type UploadObject = {
+  key: string;
+  url: string;
+  contentType: string;
+  size: number;
+  kind: string;
+};
+
+export type UploadLimits = {
+  maxBytes: number;
+  maxDisplay: string;
+  imageTypes: string[];
+  sourceTypes: string[];
+  zipForMultiple: boolean;
+};
+
+export function fetchUploadLimits() {
+  return api<UploadLimits>("/api/v1/uploads/limits");
+}
+
+export async function uploadAsset(file: File, kind: "artwork" | "banner" | "source") {
+  const headers = new Headers();
+  headers.set("Accept", "application/json");
+  if (TEST_TOKEN) headers.set("Authorization", `Bearer ${TEST_TOKEN}`);
+
+  const body = new FormData();
+  body.append("file", file);
+
+  let res: Response;
+  try {
+    res = await fetch(`/api/v1/uploads?kind=${kind}`, {
+      method: "POST",
+      headers,
+      body,
+      credentials: "include",
+      cache: "no-store",
+    });
+  } catch {
+    return { status: 0, error: "could not reach the server" as string, data: undefined as UploadObject | undefined };
+  }
+
+  const json = (await res.json().catch(() => ({}))) as { data?: UploadObject; error?: string };
+  return { data: json.data, error: json.error, status: res.status };
 }
 
 export type AdminTab = "builds" | "users" | "apis";

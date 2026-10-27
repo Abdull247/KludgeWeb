@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { Spinner } from "@/components/Spinner";
 import { Toast, useToast } from "@/components/Toast";
 import { Navbar } from "@/components/Navbar";
@@ -223,9 +224,9 @@ export default function AppHome() {
           <h1 className={`text-gradient ${styles.hello}`}>Hey {first}.</h1>
           <p className={styles.lede}>Unofficial builds, APIs, and kits — dropped by people who actually ship.</p>
           <div className={styles.actions}>
-            <button type="button" className={styles.pillPrimary}>
+            <Link href="/add" className={styles.pillPrimary}>
               <PlusIcon size={15} strokeWidth={2.4} /> Drop a build
-            </button>
+            </Link>
             <button type="button" className={styles.pillIcon} aria-label="Search">
               <SearchIcon size={16} />
             </button>
@@ -249,9 +250,9 @@ export default function AppHome() {
         <section className={styles.block}>
           <div className={styles.blockHead}>
             <h2 className={styles.blockTitle}>{home.rails.trending.title}</h2>
-            <button type="button" className={styles.pillGhost}>
+            <Link href="/add" className={styles.pillGhost}>
               <PlusIcon size={14} strokeWidth={2.4} /> Share a build
-            </button>
+            </Link>
           </div>
           <div className={styles.rail}>
             {home.rails.trending.items.map((item) => (

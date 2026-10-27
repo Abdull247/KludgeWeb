@@ -3,7 +3,7 @@ export type AppNavItem = { label: string; href: string; hint: string };
 export const APP_NAV: AppNavItem[] = [
   { label: "Home", href: "/home", hint: "Your feed" },
   { label: "Explore", href: "/explore", hint: "Trending builds & kits" },
-  { label: "Publish", href: "/publish", hint: "Drop a build" },
+  { label: "Publish", href: "/add", hint: "Drop a build" },
   { label: "Collections", href: "/collections", hint: "Saved builds" },
   { label: "Profile", href: "/profile", hint: "Your handle" },
 ];

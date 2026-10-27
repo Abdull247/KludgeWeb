@@ -234,6 +234,16 @@ export function InfoIcon({ size, className }: IconProps) {
   );
 }
 
+export function UploadIcon({ size, className, strokeWidth }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth}>
+      <path d="M12 16V5" />
+      <path d="m8 9 4-4 4 4" />
+      <path d="M5 19h14" />
+    </Svg>
+  );
+}
+
 export function GoogleIcon() {
   return (
     <svg viewBox="0 0 24 24" width={18} height={18} className="icon" aria-hidden>
