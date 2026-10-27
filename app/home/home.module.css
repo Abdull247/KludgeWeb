@@ -220,6 +220,7 @@
 
 .railCard {
   flex: 0 0 8.6rem;
+  color: inherit;
 }
 
 .railWide {
@@ -304,6 +305,7 @@
   border-radius: 1.35rem;
   border: 1px solid oklch(1 0 0 / 10%);
   background: oklch(0.15 0.012 250 / 62%);
+  color: inherit;
   box-shadow:
     inset 0 1px 0 oklch(1 0 0 / 10%),
     0 16px 32px -24px oklch(0 0 0 / 70%);

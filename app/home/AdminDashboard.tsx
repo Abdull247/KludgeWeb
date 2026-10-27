@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { Spinner } from "@/components/Spinner";
 import { SearchIcon } from "@/components/Icons";
 import { fetchAdminHome, type AdminHome, type AdminTab, type CatalogItem } from "@/lib/home";
@@ -141,7 +142,7 @@ export function AdminDashboard({ profile }: { profile: Profile }) {
           ))
         ) : (
           rows.map((item) => (
-            <article key={item.id} className={styles.card}>
+            <Link key={item.id} href={`/item/${item.id}`} className={styles.card}>
               <div className={styles.cardMain}>
                 <div className={styles.cardHead}>
                   <span className={`${styles.mark} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`} style={artworkStyle(item)}>
@@ -158,7 +159,7 @@ export function AdminDashboard({ profile }: { profile: Profile }) {
                 <p className={styles.cardBlurb}>{item.blurb}</p>
               </div>
               <p className={styles.statCount}>{item.metric.display}</p>
-            </article>
+            </Link>
           ))
         )}
       </section>

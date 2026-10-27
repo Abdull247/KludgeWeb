@@ -256,7 +256,7 @@ export default function AppHome() {
           </div>
           <div className={styles.rail}>
             {home.rails.trending.items.map((item) => (
-              <article key={item.id} className={styles.railCard}>
+              <Link key={item.id} href={`/item/${item.id}`} className={styles.railCard}>
                 <div
                   className={`${styles.cover} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}
@@ -265,7 +265,7 @@ export default function AppHome() {
                 <p className={styles.railMeta}>
                   {item.category.name} · {item.metric.display}
                 </p>
-              </article>
+              </Link>
             ))}
           </div>
         </section>
@@ -295,7 +295,7 @@ export default function AppHome() {
           ) : (
             feed.map((item) => (
               <article key={item.id} className={styles.card}>
-                <div className={styles.cardMain}>
+                <Link href={`/item/${item.id}`} className={styles.cardMain}>
                   <div className={styles.cardHead}>
                     <span
                       className={`${styles.mark} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
@@ -311,7 +311,7 @@ export default function AppHome() {
                     </div>
                   </div>
                   <p className={styles.cardBlurb}>{item.blurb}</p>
-                </div>
+                </Link>
                 <div className={styles.react}>
                   <button
                     type="button"
@@ -343,7 +343,7 @@ export default function AppHome() {
           </div>
           <div className={styles.rail}>
             {home.rails.dropped.items.map((item) => (
-              <article key={item.id} className={styles.railCard}>
+              <Link key={item.id} href={`/item/${item.id}`} className={styles.railCard}>
                 <div
                   className={`${styles.cover} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}
@@ -352,7 +352,7 @@ export default function AppHome() {
                 <p className={styles.railMeta}>
                   {item.category.name} · {item.metric.display}
                 </p>
-              </article>
+              </Link>
             ))}
           </div>
         </section>
@@ -363,7 +363,7 @@ export default function AppHome() {
           </div>
           <div className={styles.rail}>
             {home.rails.collections.items.map((item) => (
-              <article key={`${item.id}-col`} className={`${styles.railCard} ${styles.railWide}`}>
+              <Link key={`${item.id}-col`} href={`/item/${item.id}`} className={`${styles.railCard} ${styles.railWide}`}>
                 <div
                   className={`${styles.cover} ${styles.coverWide} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}
@@ -372,7 +372,7 @@ export default function AppHome() {
                 <p className={styles.railMeta}>
                   {item.creator ? `by @${item.creator.username}` : item.category.name} · {item.metric.display}
                 </p>
-              </article>
+              </Link>
             ))}
           </div>
         </section>

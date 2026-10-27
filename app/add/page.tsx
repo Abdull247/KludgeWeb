@@ -301,7 +301,7 @@ export default function AddBuildPage() {
       return;
     }
     show("Build dropped.", "success");
-    router.replace("/home");
+    router.replace(`/item/${res.data.id}`);
   };
 
   if (!profile) {

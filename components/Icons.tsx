@@ -244,6 +244,45 @@ export function UploadIcon({ size, className, strokeWidth }: IconProps) {
   );
 }
 
+export function DownloadIcon({ size, className, strokeWidth }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth}>
+      <path d="M12 5v10" />
+      <path d="m8 11 4 4 4-4" />
+      <path d="M5 19h14" />
+    </Svg>
+  );
+}
+
+export function CommentIcon({ size, className, strokeWidth }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth}>
+      <path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9l-4 3v-3H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" />
+    </Svg>
+  );
+}
+
+export function ShareIcon({ size, className, strokeWidth }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth}>
+      <circle cx="18" cy="5" r="2.4" />
+      <circle cx="6" cy="12" r="2.4" />
+      <circle cx="18" cy="19" r="2.4" />
+      <path d="m8.2 13.1 7.6 4.2" />
+      <path d="m15.8 6.7-7.6 4.2" />
+    </Svg>
+  );
+}
+
+export function FlagIcon({ size, className, strokeWidth }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth}>
+      <path d="M5 21V4" />
+      <path d="M5 4h11l-1.4 4.2L16 12.5H5" />
+    </Svg>
+  );
+}
+
 export function GoogleIcon() {
   return (
     <svg viewBox="0 0 24 24" width={18} height={18} className="icon" aria-hidden>

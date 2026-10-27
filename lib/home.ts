@@ -76,6 +76,10 @@ export type CatalogItem = {
   blurb: string;
   description: string;
   version?: string;
+  sizeBytes?: number;
+  sizeDisplay?: string;
+  downloads?: number;
+  typeLabel?: string;
   buildArtwork: string;
   banners?: string[];
   galleryKind?: "banners" | "screenshots";
@@ -182,6 +186,19 @@ export type CreateItemInput = {
   sourceUrl?: string;
   publishedAt?: string;
 };
+
+export type RecommendResult = {
+  seedId: string;
+  items: CatalogItem[];
+};
+
+export function fetchItem(id: string) {
+  return api<CatalogItem>(`/api/v1/items/${encodeURIComponent(id)}`);
+}
+
+export function fetchRecommends(id: string) {
+  return api<RecommendResult>(`/api/v1/items/${encodeURIComponent(id)}/recommends`);
+}
 
 export function fetchHome() {
   return api<HomeFeed>("/api/v1/home");
