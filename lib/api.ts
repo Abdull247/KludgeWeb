@@ -49,6 +49,7 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<Enve
       ...init,
       headers,
       credentials: "include",
+      cache: "no-store",
     });
   } catch {
     return { status: 0, error: "could not reach the server" };
@@ -59,5 +60,5 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<Enve
 }
 
 export function authStartUrl(provider: "github" | "google") {
-  return apiUrl(`/api/auth/${provider}`);
+  return `/api/auth/${provider}?next=/home`;
 }
