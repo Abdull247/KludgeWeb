@@ -166,6 +166,17 @@ export function BookmarkIcon({ size, className, strokeWidth, filled }: IconProps
   );
 }
 
+export function HeartIcon({ size, className, strokeWidth, filled }: IconProps) {
+  return (
+    <Svg size={size} className={className} strokeWidth={strokeWidth ?? 2}>
+      <path
+        d="M19.5 12.57 12 20l-7.5-7.43A4.5 4.5 0 0 1 12 6.26a4.5 4.5 0 0 1 7.5 6.31Z"
+        fill={filled ? "currentColor" : "none"}
+      />
+    </Svg>
+  );
+}
+
 export function UserIcon({ size, className, strokeWidth, filled }: IconProps) {
   return (
     <Svg size={size} className={className} strokeWidth={strokeWidth}>

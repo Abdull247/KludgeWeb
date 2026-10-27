@@ -131,7 +131,7 @@
 .pillIcon:active,
 .filter:active,
 .stat:active,
-.vote button:active {
+.reactBtn:active {
   transform: translateY(1px);
 }
 
@@ -230,6 +230,8 @@
   height: 6.4rem;
   border-radius: 1.15rem;
   border: 1px solid oklch(1 0 0 / 10%);
+  background-size: cover;
+  background-position: center;
   box-shadow:
     inset 0 1px 0 oklch(1 0 0 / 16%),
     0 12px 24px -18px oklch(0 0 0 / 70%);
@@ -327,6 +329,8 @@
   font-size: 0.78rem;
   font-weight: 650;
   color: oklch(0.98 0.003 250);
+  background-size: cover;
+  background-position: center;
 }
 
 .cardName {
@@ -354,34 +358,56 @@
   color: oklch(0.86 0.01 250);
 }
 
-.vote {
+.react {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.1rem;
-  min-width: 2.35rem;
-  padding: 0.2rem 0;
+  gap: 0.28rem;
+  min-width: 1.85rem;
+  padding: 0.12rem 0;
+  color: var(--muted-foreground);
+}
+
+.reactBtn {
+  display: grid;
+  height: 1.55rem;
+  width: 1.55rem;
+  place-items: center;
   border-radius: 9999px;
   border: 1px solid oklch(1 0 0 / 10%);
   background:
     linear-gradient(180deg, oklch(0.22 0.014 250) 0%, oklch(0.12 0.01 250) 100%);
   box-shadow: inset 0 1px 0 oklch(1 0 0 / 12%);
-  color: var(--muted-foreground);
-}
-
-.vote button {
-  display: grid;
-  height: 1.45rem;
-  width: 1.45rem;
-  place-items: center;
   color: inherit;
+  transform-origin: center;
 }
 
-.vote span {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--foreground);
+.reactOn {
+  color: oklch(0.86 0.04 85);
+}
+
+.reactLiked {
+  color: oklch(0.72 0.18 18);
+}
+
+.bounce {
+  animation: react-bounce 0.42s cubic-bezier(0.2, 1.4, 0.32, 1);
+}
+
+@keyframes react-bounce {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.28);
+  }
+  60% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .tonea {

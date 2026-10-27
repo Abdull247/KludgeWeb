@@ -1,4 +1,5 @@
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "https://kludgeserver.onrender.com").replace(/\/$/, "");
+export const TEST_TOKEN = process.env.NEXT_PUBLIC_TEST_TOKEN ?? "";
 
 export type Profile = {
   id: string;
@@ -36,10 +37,15 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<Enve
   if (init.body && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
   }
+  if (TEST_TOKEN && !headers.has("Authorization")) {
+    headers.set("Authorization", `Bearer ${TEST_TOKEN}`);
+  }
+
+  const rel = path.startsWith("/") ? path : `/${path}`;
 
   let res: Response;
   try {
-    res = await fetch(apiUrl(path), {
+    res = await fetch(rel, {
       ...init,
       headers,
       credentials: "include",

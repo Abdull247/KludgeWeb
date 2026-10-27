@@ -1,0 +1,177 @@
+import { api } from "./api";
+
+export type StatTab = "builds" | "creators" | "apis";
+
+export type Pagination = {
+  page: number;
+  perPage: number;
+  total: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+  nextPage: number | null;
+  prevPage: number | null;
+};
+
+export type Metric = {
+  key: string;
+  label: string;
+  value: number;
+  display: string;
+};
+
+export type ItemStats = {
+  saves: number;
+  likes: number;
+  forks: number;
+  pulls: number;
+  runs: number;
+  followers: number;
+  builds: number;
+};
+
+export type ViewerState = {
+  saved: boolean;
+  liked: boolean;
+};
+
+export type CreatorRef = {
+  id: string;
+  username: string;
+  displayName: string;
+  avatarUrl: string;
+  verified: boolean;
+};
+
+export type CategoryRef = {
+  id: string;
+  slug: string;
+  name: string;
+};
+
+export type SubItem = {
+  id: string;
+  name: string;
+  type: string;
+  mark?: string;
+};
+
+export type CatalogItem = {
+  id: string;
+  slug: string;
+  name: string;
+  type: string;
+  kind: string;
+  mark: string;
+  tone: string;
+  blurb: string;
+  buildArtwork: string;
+  categoryId: string;
+  sectionId: string;
+  category: CategoryRef;
+  stats: ItemStats;
+  metric: Metric;
+  viewer: ViewerState;
+  creator?: CreatorRef;
+  tags: string[];
+  subItems?: SubItem[];
+  publishedAt: string;
+  updatedAt: string;
+  trendingScore: number;
+};
+
+export type Category = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  sectionId: string;
+  itemCount: number;
+  href: string;
+};
+
+export type ItemPage = {
+  items: CatalogItem[];
+  pagination: Pagination;
+};
+
+export type Section = {
+  id: string;
+  slug: string;
+  kind: string;
+  title: string;
+  subtitle: string;
+  itemCount: number;
+  href: string;
+  categories?: Category[];
+  feed: ItemPage;
+  trending?: ItemPage;
+};
+
+export type Rail = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  algorithm?: string;
+  href: string;
+  items: CatalogItem[];
+  pagination: Pagination;
+};
+
+export type HomeFeed = {
+  generatedAt: string;
+  viewer: {
+    id: string;
+    username: string;
+    greetingName: string;
+    fullName: string;
+    avatarUrl: string;
+  };
+  search: {
+    placeholder: string;
+    chips: CategoryRef[];
+  };
+  sections: Section[];
+  rails: {
+    trending: Rail;
+    dropped: Rail;
+    collections: Rail;
+  };
+};
+
+export type ToggleResult = {
+  id: string;
+  viewer: ViewerState;
+  stats: ItemStats;
+  metric: Metric;
+};
+
+export function fetchHome() {
+  return api<HomeFeed>("/api/v1/home");
+}
+
+export function fetchSection(id: string, page = 1, perPage = 12, q = "") {
+  const params = new URLSearchParams({ page: String(page), perPage: String(perPage) });
+  if (q.trim()) params.set("q", q.trim());
+  return api<Section>(`/api/v1/sections/${id}?${params}`);
+}
+
+export function fetchCategory(id: string, page = 1, perPage = 12) {
+  const params = new URLSearchParams({ page: String(page), perPage: String(perPage) });
+  return api<{ category: Category; items: CatalogItem[]; pagination: Pagination }>(
+    `/api/v1/categories/${id}?${params}`,
+  );
+}
+
+export function toggleSave(id: string) {
+  return api<ToggleResult>(`/api/v1/items/${id}/save`, { method: "POST" });
+}
+
+export function toggleLike(id: string) {
+  return api<ToggleResult>(`/api/v1/items/${id}/like`, { method: "POST" });
+}
+
+export function patchItem(item: CatalogItem, res: ToggleResult): CatalogItem {
+  return { ...item, viewer: res.viewer, stats: res.stats, metric: res.metric };
+}
