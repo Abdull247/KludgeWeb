@@ -1,8 +1,7 @@
 "use client";
 
 import { Spinner } from "./Spinner";
-import { BottomNav } from "./BottomNav";
-import { AppTopBar } from "./AppTopBar";
+import { Navbar } from "./Navbar";
 import { useAuthProfile } from "@/lib/useAuthProfile";
 import styles from "./AppShell.module.css";
 
@@ -30,13 +29,12 @@ export function AppShell({
       <div className={styles.horizonClip} aria-hidden>
         <div className="horizon" />
       </div>
-      <AppTopBar />
+      <Navbar />
       <main className={styles.main}>
         <p className={styles.kicker}>@{profile.username}</p>
         <h1 className={`text-gradient ${styles.title}`}>{title}</h1>
         <p className={styles.copy}>{copy}</p>
       </main>
-      <BottomNav />
     </div>
   );
 }

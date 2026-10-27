@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Spinner } from "@/components/Spinner";
 import { Toast, useToast } from "@/components/Toast";
-import { BottomNav } from "@/components/BottomNav";
-import { AppTopBar } from "@/components/AppTopBar";
+import { Navbar } from "@/components/Navbar";
 import {
   ChevronUp,
   ChevronDown,
@@ -66,7 +65,7 @@ export default function AppHome() {
       </div>
       <div className={`grid-lines ${styles.grid}`} />
 
-      <AppTopBar />
+      <Navbar />
 
       <main className={styles.feed}>
         <section className={styles.hero}>
@@ -197,7 +196,6 @@ export default function AppHome() {
         </section>
       </main>
 
-      <BottomNav />
       <Toast toast={toast} onDismiss={dismiss} />
     </div>
   );
