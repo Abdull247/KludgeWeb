@@ -11,7 +11,7 @@ import { apiUrl } from "@/lib/api";
 import { useSession } from "@/lib/useSession";
 import styles from "./Navbar.module.css";
 
-type MenuItem = { key: string; href: string; label: string; hint: string; menu: boolean };
+type MenuItem = { key: string; href: string; label: string; hint: string; menu: boolean; action?: () => void };
 
 function Burger({ open }: { open: boolean }) {
   return (
@@ -23,7 +23,13 @@ function Burger({ open }: { open: boolean }) {
   );
 }
 
-export function Navbar() {
+export function Navbar({
+  dashboard,
+  onSwitchDashboard,
+}: {
+  dashboard?: "admin" | "user";
+  onSwitchDashboard?: (next: "admin" | "user") => void;
+}) {
   const router = useRouter();
   const { profile } = useSession();
   const loggedIn = Boolean(profile);
@@ -51,7 +57,21 @@ export function Navbar() {
   }, [open]);
 
   const items: MenuItem[] = loggedIn
-    ? APP_NAV.map((n) => ({ key: n.href, href: n.href, label: n.label, hint: n.hint, menu: false }))
+    ? [
+        ...APP_NAV.map((n) => ({ key: n.href, href: n.href, label: n.label, hint: n.hint, menu: false })),
+        ...(onSwitchDashboard
+          ? [
+              {
+                key: "switch-dashboard",
+                href: "#switch-dashboard",
+                label: dashboard === "admin" ? "User dashboard" : "Admin dashboard",
+                hint: dashboard === "admin" ? "Your regular feed" : "Manage everything",
+                menu: false,
+                action: () => onSwitchDashboard(dashboard === "admin" ? "user" : "admin"),
+              },
+            ]
+          : []),
+      ]
     : NAV.map((n) => ({ key: n.slug, href: `/${n.slug}`, label: n.label, hint: n.hint, menu: n.menu }));
 
   const logout = async () => {
@@ -70,12 +90,23 @@ export function Navbar() {
         <div className={styles.inner}>
           <Logo />
           <nav className={styles.desktopNav}>
-            {items.map((n) => (
-              <Link key={n.key} href={n.href} className={styles.navLink}>
-                {n.label}
-                {n.menu && <ChevronDown size={14} className={styles.chevron} />}
-              </Link>
-            ))}
+            {items.map((n) =>
+              n.action ? (
+                <button
+                  key={n.key}
+                  type="button"
+                  className={styles.navLink}
+                  onClick={n.action}
+                >
+                  {n.label}
+                </button>
+              ) : (
+                <Link key={n.key} href={n.href} className={styles.navLink}>
+                  {n.label}
+                  {n.menu && <ChevronDown size={14} className={styles.chevron} />}
+                </Link>
+              ),
+            )}
           </nav>
           <div className={styles.desktopActions}>
             <a
@@ -120,15 +151,30 @@ export function Navbar() {
               className={styles.overlayItem}
               style={{ transitionDelay: open ? `${0.2 + i * 0.06}s` : "0s" }}
             >
-              <Link
-                href={n.href}
-                onClick={() => setOpen(false)}
-                className={`${styles.overlayLink} ${i < items.length - 1 ? styles.overlayLinkBorder : ""}`}
-              >
-                <span className={styles.overlayLabel}>{n.label}</span>
-                <span className={styles.overlayHintText}>{n.hint}</span>
-                <ArrowRight size={16} className={styles.overlayArrow} />
-              </Link>
+              {n.action ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    n.action?.();
+                    setOpen(false);
+                  }}
+                  className={`${styles.overlayLink} ${i < items.length - 1 ? styles.overlayLinkBorder : ""}`}
+                >
+                  <span className={styles.overlayLabel}>{n.label}</span>
+                  <span className={styles.overlayHintText}>{n.hint}</span>
+                  <ArrowRight size={16} className={styles.overlayArrow} />
+                </button>
+              ) : (
+                <Link
+                  href={n.href}
+                  onClick={() => setOpen(false)}
+                  className={`${styles.overlayLink} ${i < items.length - 1 ? styles.overlayLinkBorder : ""}`}
+                >
+                  <span className={styles.overlayLabel}>{n.label}</span>
+                  <span className={styles.overlayHintText}>{n.hint}</span>
+                  <ArrowRight size={16} className={styles.overlayArrow} />
+                </Link>
+              )}
             </li>
           ))}
         </ul>

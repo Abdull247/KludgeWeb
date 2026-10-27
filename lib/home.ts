@@ -227,3 +227,62 @@ export function recordItem(input: CreateItemInput) {
     body: JSON.stringify(input),
   });
 }
+
+export type AdminTab = "builds" | "users" | "apis";
+
+export type AdminUser = {
+  id: string;
+  email: string;
+  fullName: string;
+  username: string;
+  avatarUrl: string;
+  role: string;
+  onboardingCompleted: boolean;
+  projectCount: number;
+  createdAt: string;
+};
+
+export type AdminStats = {
+  users: number;
+  projects: number;
+  builds: number;
+  apis: number;
+};
+
+export type AdminHome = {
+  generatedAt: string;
+  admin: boolean;
+  viewer: {
+    id: string;
+    username: string;
+    greetingName: string;
+    fullName: string;
+    avatarUrl: string;
+  };
+  stats: AdminStats;
+  projects: CatalogItem[];
+  apis: CatalogItem[];
+  users: AdminUser[];
+};
+
+export type AdminUserList = {
+  users: AdminUser[];
+  total: number;
+};
+
+export type AdminProjectList = {
+  projects: CatalogItem[];
+  total: number;
+};
+
+export function fetchAdminHome() {
+  return api<AdminHome>("/api/v1/admin/home");
+}
+
+export function fetchAdminUsers() {
+  return api<AdminUserList>("/api/v1/admin/users");
+}
+
+export function fetchAdminProjects() {
+  return api<AdminProjectList>("/api/v1/admin/projects");
+}

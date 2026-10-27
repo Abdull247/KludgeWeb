@@ -434,6 +434,38 @@
   background: linear-gradient(145deg, oklch(0.5 0.07 320), oklch(0.2 0.03 250));
 }
 
+.adminAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid oklch(1 0 0 / 12%);
+  flex-shrink: 0;
+}
+
+.adminRole {
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  background: oklch(1 0 0 / 8%);
+}
+
+.adminRoleAdmin {
+  background: linear-gradient(120deg, oklch(0.55 0.16 240), oklch(0.46 0.09 30));
+  color: #fff;
+}
+
+.adminEmail {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+}
+
 @media (min-width: 640px) {
   .hero,
   .stats,

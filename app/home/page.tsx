@@ -14,6 +14,7 @@ import {
 } from "@/components/Icons";
 import { useAuthProfile } from "@/lib/useAuthProfile";
 import {
+  fetchAdminHome,
   fetchHome,
   fetchSection,
   patchItem,
@@ -24,6 +25,7 @@ import {
   type Section,
   type StatTab,
 } from "@/lib/home";
+import { AdminDashboard } from "./AdminDashboard";
 import styles from "./home.module.css";
 
 function toneClass(tone: string) {
@@ -46,6 +48,8 @@ export default function AppHome() {
   const [bounce, setBounce] = useState<Record<string, string>>({});
   const [debouncedQ, setDebouncedQ] = useState("");
   const [ready, setReady] = useState(false);
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const [dashboard, setDashboard] = useState<"admin" | "user">("user");
   const sectionIds = useRef<Record<string, string>>({});
 
   const applyItem = useCallback((next: CatalogItem) => {
@@ -110,6 +114,28 @@ export default function AppHome() {
   useEffect(() => {
     if (!profile) return;
     let live = true;
+    fetchAdminHome().then((res) => {
+      if (live) setIsAdmin(Boolean(res.data));
+    });
+    return () => {
+      live = false;
+    };
+  }, [profile]);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem("kludge.dashboard");
+    if (stored === "admin" || stored === "user") setDashboard(stored);
+  }, []);
+
+  const switchDashboard = (next: "admin" | "user") => {
+    setDashboard(next);
+    window.localStorage.setItem("kludge.dashboard", next);
+    window.scrollTo({ top: 0 });
+  };
+
+  useEffect(() => {
+    if (!profile) return;
+    let live = true;
     fetchHome().then((res) => {
       if (!live) return;
       if (!res.data) {
@@ -145,7 +171,31 @@ export default function AppHome() {
     };
   }, [tab, debouncedQ, ready]);
 
-  if (!profile || !home || !section) {
+  if (!profile || (isAdmin === null && dashboard === "admin")) {
+    return (
+      <div className={`bg-app ${styles.page}`}>
+        <div className={styles.boot}>
+          <Spinner size={22} />
+        </div>
+      </div>
+    );
+  }
+
+  if (isAdmin && dashboard === "admin") {
+    return (
+      <div className={`bg-app ${styles.page}`}>
+        <div className={styles.horizonClip} aria-hidden>
+          <div className="horizon" />
+        </div>
+        <div className={`grid-lines ${styles.grid}`} />
+        <Navbar dashboard={dashboard} onSwitchDashboard={switchDashboard} />
+        <AdminDashboard profile={profile} />
+        <Toast toast={toast} onDismiss={dismiss} />
+      </div>
+    );
+  }
+
+  if (!home || !section) {
     return (
       <div className={`bg-app ${styles.page}`}>
         <div className={styles.boot}>
@@ -165,7 +215,7 @@ export default function AppHome() {
       </div>
       <div className={`grid-lines ${styles.grid}`} />
 
-      <Navbar />
+      <Navbar dashboard={isAdmin ? dashboard : undefined} onSwitchDashboard={isAdmin ? switchDashboard : undefined} />
 
       <main className={styles.feed}>
         <section className={styles.hero}>
