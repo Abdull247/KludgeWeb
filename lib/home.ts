@@ -78,6 +78,7 @@ export type CatalogItem = {
   version?: string;
   buildArtwork: string;
   banners?: string[];
+  galleryKind?: "banners" | "screenshots";
   categoryId: string;
   sectionId: string;
   category: CategoryRef;
@@ -167,6 +168,7 @@ export type ItemTypeDef = {
   kind: string;
   categoryId: string;
   sectionId: string;
+  galleryKind?: "banners" | "screenshots";
 };
 
 export type CreateItemInput = {

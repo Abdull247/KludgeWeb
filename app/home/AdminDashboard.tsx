@@ -144,8 +144,8 @@ export function AdminDashboard({ profile }: { profile: Profile }) {
             <article key={item.id} className={styles.card}>
               <div className={styles.cardMain}>
                 <div className={styles.cardHead}>
-                  <span className={`${styles.mark} ${toneClass(item.tone)}`} style={artworkStyle(item)}>
-                    {item.mark}
+                  <span className={`${styles.mark} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`} style={artworkStyle(item)}>
+                    {item.buildArtwork ? null : item.mark}
                   </span>
                   <div className={styles.cardId}>
                     <p className={styles.cardName}>{item.name}</p>

@@ -135,7 +135,10 @@ export default function AddBuildPage() {
   }, [artworkPublic, artworkUrl, show]);
 
   const previewName = name.trim() || "Project Name";
-  const typeLabel = types.find((t) => t.slug === type)?.label;
+  const selectedType = types.find((t) => t.slug === type);
+  const typeLabel = selectedType?.label;
+  const isScreenshots = selectedType?.galleryKind === "screenshots";
+  const galleryLabel = isScreenshots ? "Screenshots" : "Banners";
   const artReady = Boolean(artworkUrl) && !artworkBusy && !artworkError;
 
   const canSubmit = useMemo(() => {
@@ -446,20 +449,29 @@ export default function AddBuildPage() {
         </div>
 
         <div className={styles.field}>
-          <span className={styles.label}>Banners</span>
+          <span className={styles.label}>{galleryLabel}</span>
           <div className={styles.banners}>
             {banners.map((url, i) => (
-              <div key={`${url}-${i}`} className={styles.banner} style={{ backgroundImage: `url(${url})` }} />
+              <div
+                key={`${url}-${i}`}
+                className={`${styles.banner} ${isScreenshots ? styles.shot : ""}`}
+                style={{ backgroundImage: `url(${url})` }}
+              />
             ))}
             {Object.keys(bannerBusy).length > 0 ? (
-              <div className={styles.banner}>
+              <div className={`${styles.banner} ${isScreenshots ? styles.shot : ""}`}>
                 <span className={styles.bannerBtn}>
                   <Spinner size={16} />
                 </span>
               </div>
             ) : null}
             {!bannerPublic ? (
-              <button type="button" className={styles.bannerAdd} onClick={() => bannerFile.current?.click()} aria-label="Add banner">
+              <button
+                type="button"
+                className={`${styles.bannerAdd} ${isScreenshots ? styles.shotAdd : ""}`}
+                onClick={() => bannerFile.current?.click()}
+                aria-label={isScreenshots ? "Add screenshot" : "Add banner"}
+              >
                 <PlusIcon size={16} strokeWidth={2.2} />
               </button>
             ) : null}

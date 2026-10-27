@@ -258,7 +258,7 @@ export default function AppHome() {
             {home.rails.trending.items.map((item) => (
               <article key={item.id} className={styles.railCard}>
                 <div
-                  className={`${styles.cover} ${toneClass(item.tone)}`}
+                  className={`${styles.cover} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}
                 />
                 <p className={styles.railTitle}>{item.name}</p>
@@ -298,10 +298,10 @@ export default function AppHome() {
                 <div className={styles.cardMain}>
                   <div className={styles.cardHead}>
                     <span
-                      className={`${styles.mark} ${toneClass(item.tone)}`}
+                      className={`${styles.mark} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                       style={artworkStyle(item)}
                     >
-                      {item.mark}
+                      {item.buildArtwork ? null : item.mark}
                     </span>
                     <div className={styles.cardId}>
                       <p className={styles.cardName}>
@@ -345,7 +345,7 @@ export default function AppHome() {
             {home.rails.dropped.items.map((item) => (
               <article key={item.id} className={styles.railCard}>
                 <div
-                  className={`${styles.cover} ${toneClass(item.tone)}`}
+                  className={`${styles.cover} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}
                 />
                 <p className={styles.railTitle}>{item.name}</p>
@@ -365,7 +365,7 @@ export default function AppHome() {
             {home.rails.collections.items.map((item) => (
               <article key={`${item.id}-col`} className={`${styles.railCard} ${styles.railWide}`}>
                 <div
-                  className={`${styles.cover} ${styles.coverWide} ${toneClass(item.tone)}`}
+                  className={`${styles.cover} ${styles.coverWide} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}
                 />
                 <p className={styles.railTitle}>{item.name}</p>
