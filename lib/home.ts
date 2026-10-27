@@ -43,6 +43,15 @@ export type CreatorRef = {
   verified: boolean;
 };
 
+export type Publisher = {
+  id: string;
+  username: string;
+  displayName: string;
+  avatarUrl: string;
+  kind: "user" | "automation";
+  verified: boolean;
+};
+
 export type CategoryRef = {
   id: string;
   slug: string;
@@ -65,7 +74,10 @@ export type CatalogItem = {
   mark: string;
   tone: string;
   blurb: string;
+  description: string;
+  version?: string;
   buildArtwork: string;
+  banners?: string[];
   categoryId: string;
   sectionId: string;
   category: CategoryRef;
@@ -73,6 +85,8 @@ export type CatalogItem = {
   metric: Metric;
   viewer: ViewerState;
   creator?: CreatorRef;
+  publisher?: Publisher;
+  sourceUrl?: string;
   tags: string[];
   subItems?: SubItem[];
   publishedAt: string;
@@ -147,6 +161,26 @@ export type ToggleResult = {
   metric: Metric;
 };
 
+export type ItemTypeDef = {
+  slug: string;
+  label: string;
+  kind: string;
+  categoryId: string;
+  sectionId: string;
+};
+
+export type CreateItemInput = {
+  name: string;
+  description: string;
+  type: string;
+  version?: string;
+  artworkUrl: string;
+  bannerUrls?: string[];
+  tags?: string[];
+  sourceUrl?: string;
+  publishedAt?: string;
+};
+
 export function fetchHome() {
   return api<HomeFeed>("/api/v1/home");
 }
@@ -174,4 +208,22 @@ export function toggleLike(id: string) {
 
 export function patchItem(item: CatalogItem, res: ToggleResult): CatalogItem {
   return { ...item, viewer: res.viewer, stats: res.stats, metric: res.metric };
+}
+
+export function fetchItemTypes() {
+  return api<ItemTypeDef[]>("/api/v1/types");
+}
+
+export function createItem(input: CreateItemInput) {
+  return api<CatalogItem>("/api/v1/items", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function recordItem(input: CreateItemInput) {
+  return api<CatalogItem>("/api/v1/items/record", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
 }
