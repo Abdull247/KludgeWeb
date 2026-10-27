@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Logo } from "./Logo";
 import { ArrowRight, ChevronDown, Github } from "./Icons";
 import { Spinner } from "./Spinner";
-import { NAV, APP_NAV } from "@/lib/nav";
+import { NAV, APP_NAV, ADMIN_NAV } from "@/lib/nav";
 import { apiUrl } from "@/lib/api";
 import { useSession } from "@/lib/useSession";
 import styles from "./Navbar.module.css";
@@ -26,9 +26,11 @@ function Burger({ open }: { open: boolean }) {
 export function Navbar({
   dashboard,
   onSwitchDashboard,
+  onToast,
 }: {
   dashboard?: "admin" | "user";
   onSwitchDashboard?: (next: "admin" | "user") => void;
+  onToast?: (message: string) => void;
 }) {
   const router = useRouter();
   const { profile } = useSession();
@@ -56,9 +58,21 @@ export function Navbar({
     return () => document.body.classList.remove("nav-lock");
   }, [open]);
 
+  const appItems: MenuItem[] =
+    dashboard === "admin"
+      ? ADMIN_NAV.map((n) => ({
+          key: n.href,
+          href: n.href,
+          label: n.label,
+          hint: n.hint,
+          menu: false,
+          action: () => onToast?.(`${n.label} is coming next.`),
+        }))
+      : APP_NAV.map((n) => ({ key: n.href, href: n.href, label: n.label, hint: n.hint, menu: false }));
+
   const items: MenuItem[] = loggedIn
     ? [
-        ...APP_NAV.map((n) => ({ key: n.href, href: n.href, label: n.label, hint: n.hint, menu: false })),
+        ...appItems,
         ...(onSwitchDashboard
           ? [
               {

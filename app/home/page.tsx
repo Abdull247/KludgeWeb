@@ -211,7 +211,7 @@ export default function AppHome() {
           <div className="horizon" />
         </div>
         <div className={`grid-lines ${styles.grid}`} />
-        <Navbar dashboard={dashboard} onSwitchDashboard={switchDashboard} />
+        <Navbar dashboard={dashboard} onSwitchDashboard={switchDashboard} onToast={show} />
         <AdminDashboard profile={profile} />
         <Toast toast={toast} onDismiss={dismiss} />
       </div>
@@ -238,7 +238,11 @@ export default function AppHome() {
       </div>
       <div className={`grid-lines ${styles.grid}`} />
 
-      <Navbar dashboard={isAdmin ? dashboard : undefined} onSwitchDashboard={isAdmin ? switchDashboard : undefined} />
+      <Navbar
+        dashboard={isAdmin ? dashboard : undefined}
+        onSwitchDashboard={isAdmin ? switchDashboard : undefined}
+        onToast={show}
+      />
 
       <main className={styles.feed}>
         <section className={styles.hero}>

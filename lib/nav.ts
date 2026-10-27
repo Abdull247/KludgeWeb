@@ -8,6 +8,13 @@ export const APP_NAV: AppNavItem[] = [
   { label: "Profile", href: "/profile", hint: "Your handle" },
 ];
 
+export const ADMIN_NAV: AppNavItem[] = [
+  { label: "Users", href: "#users", hint: "Every account on Kludge" },
+  { label: "Requests", href: "#requests", hint: "Pending reviews & reports" },
+  { label: "Activity", href: "#activity", hint: "Drops, likes, and ingest" },
+  { label: "Status", href: "#status", hint: "Uptime and ingest health" },
+];
+
 export const NAV = [
   { label: "Explore", slug: "explore", hint: "Trending apps & mods", menu: true },
   { label: "Categories", slug: "categories", hint: "APKs, APIs & agentic tools", menu: true },
