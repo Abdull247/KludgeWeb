@@ -13,6 +13,8 @@ import {
   FlagIcon,
   HeartIcon,
   ShareIcon,
+  VerifiedIcon,
+  X,
 } from "@/components/Icons";
 import { useAuthProfile } from "@/lib/useAuthProfile";
 import {
@@ -20,8 +22,10 @@ import {
   fetchRecommends,
   patchItem,
   prefetchItem,
+  rejectItem,
   toggleLike,
   toggleSave,
+  verifyItem,
   type CatalogItem,
 } from "@/lib/home";
 import { cachedItem, cachedRecs } from "@/lib/cache";
@@ -58,7 +62,10 @@ export default function ItemPage() {
   const [item, setItem] = useState<CatalogItem | null>(() => cachedItem(id));
   const [recs, setRecs] = useState<CatalogItem[] | null>(() => cachedRecs(id));
   const [missing, setMissing] = useState(false);
-  const [busy, setBusy] = useState<"like" | "save" | null>(null);
+  const [busy, setBusy] = useState<"like" | "save" | "verify" | null>(null);
+  const [rejectOpen, setRejectOpen] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+  const [rejecting, setRejecting] = useState(false);
 
   useEffect(() => {
     const hit = cachedItem(id);
@@ -127,11 +134,48 @@ export default function ItemPage() {
 
   const download = () => {
     if (!item) return;
+    if (item.verificationStatus === "pending") {
+      show("This drop is waiting on verification.", "error");
+      return;
+    }
     if (item.sourceUrl) {
       window.open(item.sourceUrl, "_blank", "noopener,noreferrer");
       return;
     }
     show("No source file on this drop yet.", "error");
+  };
+
+  const approve = async () => {
+    if (!item || busy) return;
+    setBusy("verify");
+    const res = await verifyItem(item.id);
+    setBusy(null);
+    if (!res.data) {
+      show(res.error ?? "could not verify", "error");
+      return;
+    }
+    setItem(res.data);
+    show("Build verified.", "success");
+  };
+
+  const submitReject = async () => {
+    if (!item || rejecting) return;
+    const reason = rejectReason.trim();
+    if (!reason) {
+      show("Give a reason first.", "error");
+      return;
+    }
+    setRejecting(true);
+    const res = await rejectItem(item.id, reason);
+    setRejecting(false);
+    if (!res.data) {
+      show(res.error ?? "could not reject", "error");
+      return;
+    }
+    setItem(res.data);
+    setRejectOpen(false);
+    setRejectReason("");
+    show("Build rejected.", "success");
   };
 
   if (!profile) {
@@ -191,6 +235,11 @@ export default function ItemPage() {
   const version = item.version || "1.0.0";
   const size = item.sizeDisplay || "—";
   const downloads = formatCount(item.downloads ?? item.stats.pulls ?? 0);
+  const status = item.verificationStatus || "verified";
+  const pending = status === "pending";
+  const rejected = status === "rejected";
+  const verified = status === "verified";
+  const adminReview = Boolean(item.viewer.admin && pending);
 
   return (
     <div className={styles.page}>
@@ -214,7 +263,10 @@ export default function ItemPage() {
             )}
           </div>
           <div className={styles.heroCopy}>
-            <h1 className={styles.heroName}>{item.name}</h1>
+            <h1 className={styles.heroName}>
+              {verified ? <VerifiedIcon size={16} className={styles.verified} /> : null}
+              {item.name}
+            </h1>
             {handle ? <p className={styles.heroBy}>by {handle}</p> : null}
             <p className={styles.heroCat}>{item.category?.name || item.typeLabel || item.type}</p>
           </div>
@@ -235,10 +287,16 @@ export default function ItemPage() {
           </div>
         </section>
 
-        <button type="button" className={styles.download} onClick={download}>
-          <DownloadIcon size={16} strokeWidth={2.2} />
-          Download
-        </button>
+        {rejected ? null : pending ? (
+          <button type="button" className={`${styles.download} ${styles.downloadPending}`} onClick={download}>
+            Pending verification
+          </button>
+        ) : (
+          <button type="button" className={styles.download} onClick={download}>
+            <DownloadIcon size={16} strokeWidth={2.2} />
+            Download
+          </button>
+        )}
 
         {shots.length > 0 ? (
           <div className={styles.gallery} aria-label={isShot ? "Screenshots" : "Banners"}>
@@ -328,6 +386,55 @@ export default function ItemPage() {
           )}
         </section>
       </main>
+
+      {rejected ? (
+        <div className={styles.rejectGlass} role="status">
+          <p className={styles.rejectTitle}>Verification Rejected</p>
+          <p className={styles.rejectCopy}>{item.rejectionReason || "This drop did not pass review."}</p>
+        </div>
+      ) : null}
+
+      {adminReview ? (
+        <div className={styles.adminBar}>
+          <button type="button" className={styles.verifyBtn} onClick={() => void approve()} disabled={busy === "verify"}>
+            {busy === "verify" ? <Spinner size={16} /> : "Verify"}
+          </button>
+          <button type="button" className={styles.rejectBtn} onClick={() => setRejectOpen(true)} disabled={busy === "verify"}>
+            Reject
+          </button>
+        </div>
+      ) : null}
+
+      {rejectOpen ? (
+        <div className={styles.dim} onClick={() => setRejectOpen(false)}>
+          <div
+            className={styles.dialog}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="reject-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button type="button" className={styles.dialogClose} onClick={() => setRejectOpen(false)} aria-label="Close">
+              <X size={14} />
+            </button>
+            <h2 id="reject-title" className={styles.dialogTitle}>
+              Reject this drop
+            </h2>
+            <p className={styles.dialogCopy}>Tell the publisher why it did not pass.</p>
+            <textarea
+              className={styles.dialogInput}
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              placeholder="Reason"
+              maxLength={500}
+              rows={4}
+            />
+            <button type="button" className={styles.dialogOk} onClick={() => void submitReject()} disabled={rejecting}>
+              {rejecting ? <Spinner size={16} /> : "Reject"}
+            </button>
+          </div>
+        </div>
+      ) : null}
 
       <Toast toast={toast} onDismiss={dismiss} />
     </div>

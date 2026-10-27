@@ -34,7 +34,11 @@ export type ItemStats = {
 export type ViewerState = {
   saved: boolean;
   liked: boolean;
+  owner?: boolean;
+  admin?: boolean;
 };
+
+export type VerificationStatus = "pending" | "verified" | "rejected";
 
 export type CreatorRef = {
   id: string;
@@ -98,6 +102,9 @@ export type CatalogItem = {
   publishedAt: string;
   updatedAt: string;
   trendingScore: number;
+  verificationStatus?: VerificationStatus;
+  rejectionReason?: string;
+  verifiedAt?: string;
 };
 
 export type Category = {
@@ -392,4 +399,95 @@ export function fetchAdminUsers() {
 
 export function fetchAdminProjects() {
   return api<AdminProjectList>("/api/v1/admin/projects");
+}
+
+export type RequestList = {
+  items: CatalogItem[];
+  pagination: Pagination;
+  total: number;
+};
+
+export function fetchAdminRequests(q = "", type = "") {
+  const params = new URLSearchParams();
+  if (q.trim()) params.set("q", q.trim());
+  if (type && type !== "all") params.set("type", type);
+  const qs = params.toString();
+  return api<RequestList>(`/api/v1/admin/requests${qs ? `?${qs}` : ""}`).then((res) => {
+    if (res.data) seedItems(res.data.items);
+    return res;
+  });
+}
+
+export function verifyItem(id: string) {
+  return api<CatalogItem>(`/api/v1/admin/items/${encodeURIComponent(id)}/verify`, { method: "POST" }).then((res) => {
+    if (res.data) rememberItem(res.data);
+    return res;
+  });
+}
+
+export function rejectItem(id: string, reason: string) {
+  return api<CatalogItem>(`/api/v1/admin/items/${encodeURIComponent(id)}/reject`, {
+    method: "POST",
+    body: JSON.stringify({ reason }),
+  }).then((res) => {
+    if (res.data) rememberItem(res.data);
+    return res;
+  });
+}
+
+export type ProfileStats = {
+  projects: number;
+  downloads: number;
+  likes: number;
+  saves: number;
+  pending: number;
+  rejected: number;
+};
+
+export type ProfileFeed = {
+  viewer: {
+    id: string;
+    username: string;
+    greetingName: string;
+    fullName: string;
+    avatarUrl: string;
+  };
+  stats: ProfileStats;
+  pending: CatalogItem[];
+  rejected: CatalogItem[];
+  published: CatalogItem[];
+  saved: CatalogItem[];
+  liked: CatalogItem[];
+};
+
+export type ItemList = {
+  items: CatalogItem[];
+  total: number;
+};
+
+export function fetchMyProfile() {
+  return api<ProfileFeed>("/api/v1/me").then((res) => {
+    if (res.data) {
+      seedItems(res.data.pending);
+      seedItems(res.data.rejected);
+      seedItems(res.data.published);
+      seedItems(res.data.saved);
+      seedItems(res.data.liked);
+    }
+    return res;
+  });
+}
+
+export function fetchMyPending() {
+  return api<ItemList>("/api/v1/me/pending").then((res) => {
+    if (res.data) seedItems(res.data.items);
+    return res;
+  });
+}
+
+export function fetchMyRejected() {
+  return api<ItemList>("/api/v1/me/rejected").then((res) => {
+    if (res.data) seedItems(res.data.items);
+    return res;
+  });
 }

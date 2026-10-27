@@ -1,0 +1,60 @@
+.top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: grid;
+  grid-template-columns: 2.7rem 1fr 2.7rem;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1.05rem 0.85rem;
+  pointer-events: none;
+  background: linear-gradient(180deg, oklch(0.09 0.004 250 / 92%) 0%, oklch(0.09 0.004 250 / 0%) 100%);
+}
+
+.back,
+.chip {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.7rem;
+  border-radius: 9999px;
+  border: 1px solid oklch(1 0 0 / 10%);
+  background: oklch(0.145 0.01 250);
+  color: var(--foreground);
+}
+
+.back {
+  width: 2.7rem;
+}
+
+.back:active {
+  transform: translateY(1px);
+}
+
+.chip {
+  min-width: 0;
+  max-width: 100%;
+  justify-self: center;
+  padding: 0 1.05rem;
+  font-size: 0.88rem;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+}
+
+.chipText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .top {
+    left: 50%;
+    right: auto;
+    width: 28rem;
+    transform: translateX(-50%);
+  }
+}

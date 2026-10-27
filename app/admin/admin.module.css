@@ -1,0 +1,255 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  background: oklch(0.09 0.004 250);
+  overflow-x: clip;
+}
+
+.boot {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 4.35rem 1.05rem 3.4rem;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.15rem 0.1rem 0.2rem;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+}
+
+.title {
+  font-size: 1.45rem;
+  font-weight: 550;
+  letter-spacing: -0.04em;
+}
+
+.lede {
+  font-size: 0.88rem;
+  color: var(--muted-foreground);
+}
+
+.chips {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  margin: 0 -1.05rem;
+  padding: 0.05rem 1.05rem 0.15rem;
+  scrollbar-width: none;
+}
+
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  flex: 0 0 auto;
+  height: 2.05rem;
+  padding: 0 0.9rem;
+  border-radius: 9999px;
+  border: 1px solid oklch(1 0 0 / 10%);
+  background: oklch(0.145 0.01 250);
+  color: var(--muted-foreground);
+  font-size: 0.78rem;
+  font-weight: 520;
+  white-space: nowrap;
+}
+
+.chipOn {
+  color: var(--foreground);
+  background: oklch(0.2 0.016 250);
+  border-color: oklch(1 0 0 / 14%);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  height: 2.55rem;
+  padding: 0 0.95rem;
+  border-radius: 9999px;
+  border: 1px solid oklch(1 0 0 / 10%);
+  background: oklch(0.145 0.01 250);
+  color: var(--muted-foreground);
+}
+
+.search input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.86rem;
+  outline: none;
+}
+
+.search input::placeholder {
+  color: var(--muted-foreground);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.card {
+  display: flex;
+  gap: 0.7rem;
+  padding: 0.9rem 0.95rem;
+  border-radius: 1.35rem;
+  border: 1px solid oklch(1 0 0 / 9%);
+  background: oklch(0.145 0.01 250);
+  color: inherit;
+}
+
+.cardMain {
+  min-width: 0;
+  flex: 1;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.mark {
+  display: grid;
+  height: 2.35rem;
+  width: 2.35rem;
+  flex-shrink: 0;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid oklch(1 0 0 / 10%);
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: oklch(0.96 0.005 250);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.mark img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.cardName {
+  font-size: 0.92rem;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+}
+
+.cardCat {
+  margin-top: 0.08rem;
+  font-size: 0.72rem;
+  color: var(--muted-foreground);
+}
+
+.cardBlurb {
+  margin-top: 0.5rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: oklch(0.8 0.012 250);
+}
+
+.empty {
+  padding: 1.4rem 0.2rem;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--muted-foreground);
+}
+
+.tonea {
+  background: linear-gradient(145deg, oklch(0.42 0.08 240), oklch(0.18 0.03 250));
+}
+
+.toneb {
+  background: linear-gradient(145deg, oklch(0.4 0.06 200), oklch(0.18 0.03 250));
+}
+
+.tonec {
+  background: linear-gradient(145deg, oklch(0.38 0.06 280), oklch(0.18 0.03 250));
+}
+
+.toned {
+  background: linear-gradient(145deg, oklch(0.4 0.05 160), oklch(0.18 0.03 250));
+}
+
+.tonee {
+  background: linear-gradient(145deg, oklch(0.38 0.05 30), oklch(0.18 0.03 250));
+}
+
+.tonef {
+  background: linear-gradient(145deg, oklch(0.4 0.05 320), oklch(0.18 0.03 250));
+}
+
+.adminAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid oklch(1 0 0 / 12%);
+  flex-shrink: 0;
+}
+
+.adminRole {
+  margin-left: 0.45rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: oklch(1 0 0 / 8%);
+}
+
+.adminRoleAdmin {
+  background: oklch(0.48 0.14 245);
+  color: oklch(0.98 0.01 250);
+}
+
+.adminEmail {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+}
+
+.count {
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  color: var(--muted-foreground);
+  align-self: center;
+}
+
+@media (min-width: 640px) {
+  .main {
+    max-width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .chips {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

@@ -1,0 +1,261 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  background: oklch(0.09 0.004 250);
+  overflow-x: clip;
+}
+
+.boot {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 5.1rem 1.05rem 3.4rem;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.4rem 0 0.2rem;
+}
+
+.avatar {
+  height: 5.4rem;
+  width: 5.4rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  border: 1px solid oklch(1 0 0 / 12%);
+  background: oklch(0.18 0.02 250);
+  color: oklch(0.96 0.005 250);
+  display: grid;
+  place-items: center;
+  font-size: 1.35rem;
+  font-weight: 620;
+}
+
+.avatar img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.handle {
+  text-align: center;
+}
+
+.name {
+  font-size: 1.18rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.user {
+  margin-top: 0.18rem;
+  font-size: 0.84rem;
+  color: oklch(0.72 0.09 245);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 0.95rem 0.4rem;
+  border-radius: 1.45rem;
+  border: 1px solid oklch(1 0 0 / 9%);
+  background: oklch(0.145 0.01 250);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.stat + .stat {
+  border-left: 1px solid oklch(1 0 0 / 8%);
+}
+
+.statValue {
+  font-size: 1rem;
+  font-weight: 620;
+  letter-spacing: -0.03em;
+}
+
+.statLabel {
+  font-size: 0.72rem;
+  color: var(--muted-foreground);
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  min-height: 2.45rem;
+  padding: 0 0.95rem;
+  border-radius: 9999px;
+  border: 1px solid oklch(1 0 0 / 10%);
+  background: oklch(0.145 0.01 250);
+  color: inherit;
+}
+
+.bannerText {
+  font-size: 0.82rem;
+  font-weight: 540;
+}
+
+.bannerWarn {
+  border-color: oklch(0.55 0.14 25 / 35%);
+  background: oklch(0.18 0.03 25);
+}
+
+.tabs {
+  display: flex;
+  padding: 0.22rem;
+  border-radius: 1.35rem;
+  border: 1px solid oklch(1 0 0 / 8%);
+  background: oklch(0.14 0.01 250 / 55%);
+}
+
+.tab {
+  flex: 1;
+  height: 2.05rem;
+  border-radius: 1.05rem;
+  font-size: 0.78rem;
+  font-weight: 540;
+  color: var(--muted-foreground);
+}
+
+.tabOn {
+  color: var(--foreground);
+  background: oklch(0.22 0.016 250);
+  border: 1px solid oklch(1 0 0 / 10%);
+}
+
+.pager {
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  width: 300%;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pane {
+  width: 33.333%;
+  flex: 0 0 33.333%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.card {
+  display: flex;
+  gap: 0.7rem;
+  padding: 0.9rem 0.95rem;
+  border-radius: 1.35rem;
+  border: 1px solid oklch(1 0 0 / 9%);
+  background: oklch(0.145 0.01 250);
+  color: inherit;
+}
+
+.mark {
+  display: grid;
+  height: 2.35rem;
+  width: 2.35rem;
+  flex-shrink: 0;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid oklch(1 0 0 / 10%);
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: oklch(0.96 0.005 250);
+  background-size: cover;
+  background-position: center;
+}
+
+.mark img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.cardMain {
+  min-width: 0;
+  flex: 1;
+}
+
+.cardName {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.92rem;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+}
+
+.verified {
+  color: oklch(0.62 0.16 250);
+}
+
+.cardCat {
+  margin-top: 0.08rem;
+  font-size: 0.72rem;
+  color: var(--muted-foreground);
+}
+
+.cardBlurb {
+  margin-top: 0.45rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: oklch(0.8 0.012 250);
+}
+
+.empty {
+  padding: 1.2rem 0.2rem;
+  text-align: center;
+  font-size: 0.86rem;
+  color: var(--muted-foreground);
+}
+
+.tonea {
+  background: linear-gradient(145deg, oklch(0.42 0.08 240), oklch(0.18 0.03 250));
+}
+
+.toneb {
+  background: linear-gradient(145deg, oklch(0.4 0.06 200), oklch(0.18 0.03 250));
+}
+
+.tonec {
+  background: linear-gradient(145deg, oklch(0.38 0.06 280), oklch(0.18 0.03 250));
+}
+
+.toned {
+  background: linear-gradient(145deg, oklch(0.4 0.05 160), oklch(0.18 0.03 250));
+}
+
+.tonee {
+  background: linear-gradient(145deg, oklch(0.38 0.05 30), oklch(0.18 0.03 250));
+}
+
+.tonef {
+  background: linear-gradient(145deg, oklch(0.4 0.05 320), oklch(0.18 0.03 250));
+}
+
+@media (min-width: 640px) {
+  .main {
+    max-width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

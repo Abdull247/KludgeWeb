@@ -9,10 +9,10 @@ export const APP_NAV: AppNavItem[] = [
 ];
 
 export const ADMIN_NAV: AppNavItem[] = [
-  { label: "Users", href: "#users", hint: "Every account on Kludge" },
-  { label: "Requests", href: "#requests", hint: "Pending reviews & reports" },
-  { label: "Activity", href: "#activity", hint: "Drops, likes, and ingest" },
-  { label: "Status", href: "#status", hint: "Uptime and ingest health" },
+  { label: "Users", href: "/admin/users", hint: "Every account on Kludge" },
+  { label: "Requests", href: "/admin/requests", hint: "Pending reviews & reports" },
+  { label: "Activity", href: "/admin/activity", hint: "Drops, likes, and ingest" },
+  { label: "Status", href: "/admin/status", hint: "Uptime and ingest health" },
 ];
 
 export const NAV = [

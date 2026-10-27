@@ -26,7 +26,6 @@ function Burger({ open }: { open: boolean }) {
 export function Navbar({
   dashboard,
   onSwitchDashboard,
-  onToast,
 }: {
   dashboard?: "admin" | "user";
   onSwitchDashboard?: (next: "admin" | "user") => void;
@@ -66,7 +65,6 @@ export function Navbar({
           label: n.label,
           hint: n.hint,
           menu: false,
-          action: () => onToast?.(`${n.label} is coming next.`),
         }))
       : APP_NAV.map((n) => ({ key: n.href, href: n.href, label: n.label, hint: n.hint, menu: false }));
 

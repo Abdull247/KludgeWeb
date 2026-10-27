@@ -33,6 +33,21 @@ export function ArrowDown({ size, className }: IconProps) {
   );
 }
 
+export function VerifiedIcon({ size, className }: IconProps) {
+  return (
+    <svg
+      className={`icon ${className ?? ""}`}
+      width={size ?? 16}
+      height={size ?? 16}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+    >
+      <path d="M12 2.2 14.7 3l2.7.3.3 2.7L19.8 9l-.3 2.7-.3 2.7-2.7.3L12 21.8 9.3 21l-2.7-.3-.3-2.7L4.2 15l.3-2.7.3-2.7 2.7-.3L12 2.2Zm-1.15 12.05 5.02-5.02-1.06-1.06-3.96 3.96-1.8-1.8-1.06 1.06 2.86 2.86Z" />
+    </svg>
+  );
+}
+
 export function ArrowRight({ size, className }: IconProps) {
   return (
     <Svg size={size} className={className}>
