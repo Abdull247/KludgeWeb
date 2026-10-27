@@ -19,6 +19,7 @@ import {
   fetchHome,
   fetchSection,
   patchItem,
+  prefetchItem,
   toggleLike,
   toggleSave,
   type CatalogItem,
@@ -26,6 +27,7 @@ import {
   type Section,
   type StatTab,
 } from "@/lib/home";
+import { cachedHome, rememberHome } from "@/lib/cache";
 import { AdminDashboard } from "./AdminDashboard";
 import styles from "./home.module.css";
 
@@ -41,17 +43,19 @@ export default function AppHome() {
   const profile = useAuthProfile();
   const { toast, show, dismiss } = useToast();
   const noticed = useRef(false);
-  const [tab, setTab] = useState<StatTab>("builds");
+  const snap = cachedHome();
+  const [tab, setTab] = useState<StatTab>(snap?.tab ?? "builds");
   const [query, setQuery] = useState("");
-  const [home, setHome] = useState<HomeFeed | null>(null);
-  const [section, setSection] = useState<Section | null>(null);
+  const [home, setHome] = useState<HomeFeed | null>(snap?.home ?? null);
+  const [section, setSection] = useState<Section | null>(snap?.section ?? null);
   const [busy, setBusy] = useState(false);
   const [bounce, setBounce] = useState<Record<string, string>>({});
   const [debouncedQ, setDebouncedQ] = useState("");
-  const [ready, setReady] = useState(false);
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
-  const [dashboard, setDashboard] = useState<"admin" | "user">("user");
-  const sectionIds = useRef<Record<string, string>>({});
+  const [ready, setReady] = useState(Boolean(snap?.ready));
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(snap?.isAdmin ?? null);
+  const [dashboard, setDashboard] = useState<"admin" | "user">(snap?.dashboard ?? "user");
+  const sectionIds = useRef<Record<string, string>>(snap?.sectionIds ?? {});
+  const skipSection = useRef(Boolean(snap?.section && !query));
 
   const applyItem = useCallback((next: CatalogItem) => {
     setHome((h) => {
@@ -140,7 +144,7 @@ export default function AppHome() {
     fetchHome().then((res) => {
       if (!live) return;
       if (!res.data) {
-        show(res.error ?? "could not load home", "error");
+        if (!cachedHome()?.home) show(res.error ?? "could not load home", "error");
         return;
       }
       setHome(res.data);
@@ -148,7 +152,7 @@ export default function AppHome() {
       for (const s of res.data.sections) ids[s.slug] = s.id;
       sectionIds.current = ids;
       const builds = res.data.sections.find((s) => s.slug === "builds") ?? res.data.sections[0];
-      setSection(builds ?? null);
+      setSection((prev) => prev ?? builds ?? null);
       setReady(true);
     });
     return () => {
@@ -157,9 +161,27 @@ export default function AppHome() {
   }, [profile, show]);
 
   useEffect(() => {
+    if (!home) return;
+    rememberHome({
+      home,
+      section,
+      tab,
+      ready,
+      isAdmin,
+      dashboard,
+      sectionIds: sectionIds.current,
+    });
+  }, [home, section, tab, ready, isAdmin, dashboard]);
+
+  useEffect(() => {
     if (!ready) return;
     const id = sectionIds.current[tab];
     if (!id) return;
+    if (skipSection.current && section?.id === id && !debouncedQ) {
+      skipSection.current = false;
+      return;
+    }
+    skipSection.current = false;
     let live = true;
     setBusy(true);
     fetchSection(id, 1, 12, debouncedQ).then((res) => {
@@ -256,7 +278,7 @@ export default function AppHome() {
           </div>
           <div className={styles.rail}>
             {home.rails.trending.items.map((item) => (
-              <Link key={item.id} href={`/item/${item.id}`} className={styles.railCard}>
+              <Link key={item.id} href={`/item/${item.id}`} className={styles.railCard} onPointerEnter={() => prefetchItem(item.id)}>
                 <div
                   className={`${styles.cover} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}
@@ -295,7 +317,7 @@ export default function AppHome() {
           ) : (
             feed.map((item) => (
               <article key={item.id} className={styles.card}>
-                <Link href={`/item/${item.id}`} className={styles.cardMain}>
+                <Link href={`/item/${item.id}`} className={styles.cardMain} onPointerEnter={() => prefetchItem(item.id)}>
                   <div className={styles.cardHead}>
                     <span
                       className={`${styles.mark} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
@@ -343,7 +365,7 @@ export default function AppHome() {
           </div>
           <div className={styles.rail}>
             {home.rails.dropped.items.map((item) => (
-              <Link key={item.id} href={`/item/${item.id}`} className={styles.railCard}>
+              <Link key={item.id} href={`/item/${item.id}`} className={styles.railCard} onPointerEnter={() => prefetchItem(item.id)}>
                 <div
                   className={`${styles.cover} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}
@@ -363,7 +385,7 @@ export default function AppHome() {
           </div>
           <div className={styles.rail}>
             {home.rails.collections.items.map((item) => (
-              <Link key={`${item.id}-col`} href={`/item/${item.id}`} className={`${styles.railCard} ${styles.railWide}`}>
+              <Link key={`${item.id}-col`} href={`/item/${item.id}`} className={`${styles.railCard} ${styles.railWide}`} onPointerEnter={() => prefetchItem(item.id)}>
                 <div
                   className={`${styles.cover} ${styles.coverWide} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}

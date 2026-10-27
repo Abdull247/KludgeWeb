@@ -1,4 +1,5 @@
 import { api, TEST_TOKEN } from "./api";
+import { cachedItem, cachedRecs, once, patchCachedItem, rememberItem, rememberRecs, seedItems } from "./cache";
 
 export type StatTab = "builds" | "creators" | "apis";
 
@@ -193,21 +194,52 @@ export type RecommendResult = {
 };
 
 export function fetchItem(id: string) {
-  return api<CatalogItem>(`/api/v1/items/${encodeURIComponent(id)}`);
+  return api<CatalogItem>(`/api/v1/items/${encodeURIComponent(id)}`).then((res) => {
+    if (res.data) rememberItem(res.data);
+    return res;
+  });
 }
 
 export function fetchRecommends(id: string) {
-  return api<RecommendResult>(`/api/v1/items/${encodeURIComponent(id)}/recommends`);
+  return api<RecommendResult>(`/api/v1/items/${encodeURIComponent(id)}/recommends`).then((res) => {
+    if (res.data) rememberRecs(id, res.data.items);
+    return res;
+  });
+}
+
+export function prefetchItem(id: string) {
+  if (!id) return;
+  const hit = cachedItem(id);
+  const full = Boolean(hit && (hit.sizeDisplay || hit.typeLabel));
+  const related = cachedRecs(id);
+  if (full && related) return;
+  void once(`item:${id}`, async () => {
+    await Promise.all([
+      full ? Promise.resolve() : fetchItem(id).then(() => undefined),
+      related ? Promise.resolve() : fetchRecommends(id).then(() => undefined),
+    ]);
+  });
 }
 
 export function fetchHome() {
-  return api<HomeFeed>("/api/v1/home");
+  return api<HomeFeed>("/api/v1/home").then((res) => {
+    if (res.data) {
+      seedItems(res.data.rails.trending.items);
+      seedItems(res.data.rails.dropped.items);
+      seedItems(res.data.rails.collections.items);
+      for (const s of res.data.sections) seedItems(s.feed.items);
+    }
+    return res;
+  });
 }
 
 export function fetchSection(id: string, page = 1, perPage = 12, q = "") {
   const params = new URLSearchParams({ page: String(page), perPage: String(perPage) });
   if (q.trim()) params.set("q", q.trim());
-  return api<Section>(`/api/v1/sections/${id}?${params}`);
+  return api<Section>(`/api/v1/sections/${id}?${params}`).then((res) => {
+    if (res.data) seedItems(res.data.feed.items);
+    return res;
+  });
 }
 
 export function fetchCategory(id: string, page = 1, perPage = 12) {
@@ -226,7 +258,9 @@ export function toggleLike(id: string) {
 }
 
 export function patchItem(item: CatalogItem, res: ToggleResult): CatalogItem {
-  return { ...item, viewer: res.viewer, stats: res.stats, metric: res.metric };
+  const next = { ...item, viewer: res.viewer, stats: res.stats, metric: res.metric };
+  patchCachedItem(next);
+  return next;
 }
 
 export function fetchItemTypes() {

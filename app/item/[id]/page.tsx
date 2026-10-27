@@ -19,10 +19,12 @@ import {
   fetchItem,
   fetchRecommends,
   patchItem,
+  prefetchItem,
   toggleLike,
   toggleSave,
   type CatalogItem,
 } from "@/lib/home";
+import { cachedItem, cachedRecs } from "@/lib/cache";
 import styles from "./item.module.css";
 
 function toneClass(tone: string) {
@@ -53,29 +55,39 @@ export default function ItemPage() {
   const { toast, show, dismiss } = useToast();
   const id = decodeURIComponent(params?.id ?? "");
 
-  const [item, setItem] = useState<CatalogItem | null>(null);
-  const [recs, setRecs] = useState<CatalogItem[]>([]);
+  const [item, setItem] = useState<CatalogItem | null>(() => cachedItem(id));
+  const [recs, setRecs] = useState<CatalogItem[] | null>(() => cachedRecs(id));
   const [missing, setMissing] = useState(false);
   const [busy, setBusy] = useState<"like" | "save" | null>(null);
 
   useEffect(() => {
+    const hit = cachedItem(id);
+    if (hit) {
+      setItem(hit);
+      setMissing(false);
+    } else {
+      setItem(null);
+    }
+    setRecs(cachedRecs(id));
+  }, [id]);
+
+  useEffect(() => {
     if (!profile || !id) return;
     let live = true;
-    setItem(null);
-    setMissing(false);
     fetchItem(id).then((res) => {
       if (!live) return;
       if (!res.data) {
-        setMissing(true);
+        if (!cachedItem(id)) setMissing(true);
         show(res.error ?? "item not found", "error");
         return;
       }
+      setMissing(false);
       setItem(res.data);
       document.title = `${res.data.name} — Kludge`;
     });
     fetchRecommends(id).then((res) => {
       if (!live) return;
-      setRecs(res.data?.items ?? []);
+      setRecs(res.data?.items ?? cachedRecs(id) ?? []);
     });
     return () => {
       live = false;
@@ -157,6 +169,14 @@ export default function ItemPage() {
   if (!item) {
     return (
       <div className={styles.page}>
+        <header className={styles.top}>
+          <button type="button" className={styles.back} onClick={() => router.back()} aria-label="Back">
+            <ArrowLeft size={18} />
+          </button>
+          <span className={styles.chip}>
+            <span className={styles.chipText}>Loading</span>
+          </span>
+        </header>
         <div className={styles.boot}>
           <Spinner size={22} />
         </div>
@@ -283,12 +303,17 @@ export default function ItemPage() {
 
         <section className={styles.recs}>
           <h2 className={styles.recsHead}>More like this</h2>
-          {recs.length === 0 ? (
+          {recs === null ? null : recs.length === 0 ? (
             <p className={styles.empty}>No related drops yet.</p>
           ) : (
             <div className={styles.recRail}>
               {recs.map((it) => (
-                <Link key={it.id} href={`/item/${it.id}`} className={styles.rec}>
+                <Link
+                  key={it.id}
+                  href={`/item/${it.id}`}
+                  className={styles.rec}
+                  onPointerEnter={() => prefetchItem(it.id)}
+                >
                   <div className={`${styles.recArt} ${it.buildArtwork ? "" : toneClass(it.tone)}`}>
                     {it.buildArtwork ? (
                       // eslint-disable-next-line @next/next/no-img-element

@@ -12,19 +12,23 @@
 }
 
 .top {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 30;
+  left: 0;
+  right: 0;
+  z-index: 40;
   display: grid;
   grid-template-columns: 2.7rem 1fr 2.7rem;
   align-items: center;
   gap: 0.55rem;
-  padding: 0.7rem 1.05rem 0.55rem;
-  background: linear-gradient(180deg, oklch(0.09 0.004 250) 70%, oklch(0.09 0.004 250 / 0%) 100%);
+  padding: 0.7rem 1.05rem 0.85rem;
+  pointer-events: none;
+  background: linear-gradient(180deg, oklch(0.09 0.004 250 / 92%) 0%, oklch(0.09 0.004 250 / 0%) 100%);
 }
 
 .back,
 .chip {
+  pointer-events: auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -63,7 +67,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-  padding: 0.35rem 1.05rem 3.4rem;
+  padding: 4.35rem 1.05rem 3.4rem;
 }
 
 .hero,
@@ -365,7 +369,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.7rem;
-  padding: 4rem 1.2rem;
+  padding: 5.2rem 1.2rem 4rem;
   text-align: center;
 }
 
@@ -394,7 +398,13 @@
 }
 
 @media (min-width: 640px) {
-  .top,
+  .top {
+    left: 50%;
+    right: auto;
+    width: 28rem;
+    transform: translateX(-50%);
+  }
+
   .main {
     max-width: 28rem;
     margin-left: auto;
