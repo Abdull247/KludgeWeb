@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState, type MouseEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Spinner } from "@/components/Spinner";
@@ -16,7 +16,7 @@ import {
   VerifiedIcon,
   X,
 } from "@/components/Icons";
-import { useAuthProfile } from "@/lib/useAuthProfile";
+import { useSession } from "@/lib/useSession";
 import {
   fetchItem,
   fetchRecommends,
@@ -69,11 +69,12 @@ export default function ItemPage() {
 }
 
 function ItemPageInner() {
-  const profile = useAuthProfile();
+  const { profile, known } = useSession();
   const searchParams = useSearchParams();
   const router = useRouter();
   const { toast, show, dismiss } = useToast();
   const id = decodeURIComponent(searchParams.get("id") ?? "");
+  const guest = known && !profile;
 
   const [item, setItem] = useState<CatalogItem | null>(() => cachedItem(id));
   const [recs, setRecs] = useState<CatalogItem[] | null>(() => cachedRecs(id));
@@ -82,6 +83,7 @@ function ItemPageInner() {
   const [rejectOpen, setRejectOpen] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
   const [rejecting, setRejecting] = useState(false);
+  const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
 
   useEffect(() => {
     const hit = cachedItem(id);
@@ -95,7 +97,7 @@ function ItemPageInner() {
   }, [id]);
 
   useEffect(() => {
-    if (!profile || !id) return;
+    if (!known || !id) return;
     let live = true;
     fetchItem(id).then((res) => {
       if (!live) return;
@@ -115,10 +117,31 @@ function ItemPageInner() {
     return () => {
       live = false;
     };
-  }, [profile, id, show]);
+  }, [known, id, show]);
+
+  const goAuth = () => router.push("/auth");
+
+  const openGuestAuth = (e: MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const next = { id: Date.now(), x: e.clientX - rect.left, y: e.clientY - rect.top };
+    setRipples((list) => [...list, next]);
+    window.setTimeout(() => {
+      setRipples((list) => list.filter((r) => r.id !== next.id));
+      goAuth();
+    }, 280);
+  };
+
+  const needAuth = (message: string) => {
+    show(message, "error");
+    goAuth();
+  };
 
   const react = async (action: "save" | "like") => {
     if (!item || busy) return;
+    if (guest) {
+      needAuth("Sign in to do that.");
+      return;
+    }
     setBusy(action);
     const res = action === "save" ? await toggleSave(item.id) : await toggleLike(item.id);
     setBusy(null);
@@ -150,6 +173,10 @@ function ItemPageInner() {
 
   const download = () => {
     if (!item) return;
+    if (guest) {
+      needAuth("Sign in to download.");
+      return;
+    }
     if (item.verificationStatus === "pending") {
       show("This drop is waiting on verification.", "error");
       return;
@@ -194,7 +221,7 @@ function ItemPageInner() {
     show("Build rejected.", "success");
   };
 
-  if (!profile) {
+  if (!known) {
     return (
       <div className={styles.page}>
         <div className={styles.boot}>
@@ -333,7 +360,7 @@ function ItemPageInner() {
         ) : null}
 
         <div className={styles.actions} aria-label="Actions">
-          <button type="button" className={styles.action} onClick={() => show("Comments are next.", "success")}>
+          <button type="button" className={styles.action} onClick={() => (guest ? needAuth("Sign in to comment.") : show("Comments are next.", "success"))}>
             <span className={styles.actionIcon}>
               <CommentIcon size={16} />
             </span>
@@ -367,7 +394,7 @@ function ItemPageInner() {
             </span>
             <span className={styles.actionLabel}>Share</span>
           </button>
-          <button type="button" className={styles.action} onClick={() => show("Report sent.", "success")}>
+          <button type="button" className={styles.action} onClick={() => (guest ? needAuth("Sign in to report.") : show("Report sent.", "success"))}>
             <span className={styles.actionIcon}>
               <FlagIcon size={16} />
             </span>
@@ -402,6 +429,15 @@ function ItemPageInner() {
           )}
         </section>
       </main>
+
+      {guest ? (
+        <button type="button" className={styles.guestChip} onClick={openGuestAuth}>
+          {ripples.map((r) => (
+            <span key={r.id} className={styles.guestRipple} style={{ left: r.x, top: r.y }} />
+          ))}
+          Guest Mode
+        </button>
+      ) : null}
 
       {rejected ? (
         <div className={styles.rejectGlass} role="status">
