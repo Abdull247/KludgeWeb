@@ -391,6 +391,43 @@ export type AdminProjectList = {
   total: number;
 };
 
+export type Visitor = {
+  id: string;
+  itemId: string;
+  itemName: string;
+  authenticated: boolean;
+  userId: string | null;
+  name: string;
+  email: string;
+  username: string;
+  avatarUrl: string;
+  userAgent: string;
+  ipAddress: string;
+  referer: string;
+  language: string;
+  createdAt: string;
+};
+
+export type VisitorList = {
+  visitors: Visitor[];
+  pagination: Pagination;
+  total: number;
+};
+
+export function recordItemVisit(id: string) {
+  return api<{ ok: boolean }>(`/api/v1/items/${encodeURIComponent(id)}/visit`, { method: "POST" });
+}
+
+export function fetchVisitors(page = 1, perPage = 30, q = "") {
+  const params = new URLSearchParams({ page: String(page), perPage: String(perPage) });
+  if (q.trim()) params.set("q", q.trim());
+  return api<VisitorList>(`/api/v1/admin/visitors?${params.toString()}`);
+}
+
+export function fetchVisitor(id: string) {
+  return api<Visitor>(`/api/v1/admin/visitors/${encodeURIComponent(id)}`);
+}
+
 export function fetchAdminHome() {
   return api<AdminHome>("/api/v1/admin/home");
 }

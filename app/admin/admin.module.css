@@ -239,6 +239,105 @@
   align-self: center;
 }
 
+.badge {
+  margin-left: 0.45rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: oklch(1 0 0 / 8%);
+}
+
+.badgeUser {
+  background: oklch(0.48 0.14 245);
+  color: oklch(0.98 0.01 250);
+}
+
+.badgeGuest {
+  background: oklch(0.44 0.08 260);
+  color: oklch(0.98 0.01 250);
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.35rem 0 0.6rem;
+}
+
+.pagerBtn {
+  height: 2.2rem;
+  padding: 0 0.95rem;
+  border-radius: 9999px;
+  border: 1px solid oklch(1 0 0 / 10%);
+  background: oklch(0.145 0.01 250);
+  color: var(--muted-foreground);
+  font-size: 0.78rem;
+  font-weight: 540;
+}
+
+.pagerBtn:disabled {
+  opacity: 0.4;
+}
+
+.pagerInfo {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--muted-foreground);
+}
+
+.when {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  align-self: center;
+  gap: 0.28rem;
+}
+
+.whenMain {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+
+.section {
+  padding: 0.55rem 0.1rem 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  color: var(--muted-foreground);
+}
+
+.kv {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.kvRowBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.kvKey {
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  color: var(--muted-foreground);
+}
+
+.kvVal {
+  margin-top: 0.12rem;
+  font-size: 0.84rem;
+  word-break: break-word;
+}
+
 @media (min-width: 640px) {
   .main {
     max-width: 28rem;

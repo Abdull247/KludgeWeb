@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Spinner } from "@/components/Spinner";
-import { SearchIcon } from "@/components/Icons";
+import { SearchIcon, ArrowRight } from "@/components/Icons";
 import { fetchAdminHome, prefetchItem, type AdminHome, type AdminTab, type CatalogItem } from "@/lib/home";
 import type { Profile } from "@/lib/api";
 import styles from "./home.module.css";
@@ -92,6 +92,15 @@ export function AdminDashboard({ profile }: { profile: Profile }) {
               <span className={styles.statCount}>{home.stats[t.key]}</span>
             </button>
           ))}
+        </section>
+      )}
+
+      {home && (
+        <section className={styles.block} aria-label="Admin shortcuts">
+          <Link href="/admin/visitors" className={styles.visitorChip}>
+            <span className={styles.visitorChipText}>Visitors log</span>
+            <ArrowRight size={14} />
+          </Link>
         </section>
       )}
 

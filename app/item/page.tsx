@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState, type MouseEvent } from "react";
+import { Suspense, useEffect, useRef, useState, type MouseEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Spinner } from "@/components/Spinner";
@@ -23,6 +23,7 @@ import {
   fetchRecommends,
   patchItem,
   prefetchItem,
+  recordItemVisit,
   rejectItem,
   toggleLike,
   toggleSave,
@@ -86,6 +87,7 @@ function ItemPageInner() {
   const [rejecting, setRejecting] = useState(false);
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
   const [viewer, setViewer] = useState<string | null>(null);
+  const visitLogged = useRef<string>("");
 
   useEffect(() => {
     if (!viewer) return;
@@ -120,6 +122,11 @@ function ItemPageInner() {
       setMissing(false);
       setItem(res.data);
       document.title = `${res.data.name} — Kludge`;
+      // Log the view once per page load so the admin visitors log stays honest.
+      if (visitLogged.current !== id) {
+        visitLogged.current = id;
+        void recordItemVisit(id);
+      }
     });
     fetchRecommends(id).then((res) => {
       if (!live) return;
