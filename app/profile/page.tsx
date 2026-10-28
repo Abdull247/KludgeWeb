@@ -33,7 +33,7 @@ type TabKey = (typeof TABS)[number]["key"];
 function ItemCard({ item }: { item: CatalogItem }) {
   const verified = (item.verificationStatus || "verified") === "verified";
   return (
-    <Link href={`/item/${item.id}`} className={styles.card} onPointerEnter={() => prefetchItem(item.id)}>
+    <Link href={`/item?id=${encodeURIComponent(item.id)}`} className={styles.card} onPointerEnter={() => prefetchItem(item.id)}>
       <span className={`${styles.mark} ${item.buildArtwork ? "" : toneClass(item.tone)}`}>
         {item.buildArtwork ? (
           // eslint-disable-next-line @next/next/no-img-element

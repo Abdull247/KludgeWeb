@@ -301,7 +301,7 @@ export default function AddBuildPage() {
       return;
     }
     show("Submitted for verification.", "success");
-    router.replace(`/item/${res.data.id}`);
+    router.replace(`/item?id=${encodeURIComponent(res.data.id)}`);
   };
 
   if (!profile) {

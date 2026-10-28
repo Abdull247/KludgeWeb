@@ -1,9 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export", // <--- This tells Next.js to create the 'out' folder
+  output: "export",
+  images: { unoptimized: true },
+  trailingSlash: false,
   allowedDevOrigins: ["*.monkeycode-ai.live"],
   webpack: (config, { dev }) => {
+    config.cache = false;
     if (dev) {
       config.watchOptions = {
         poll: 1500,

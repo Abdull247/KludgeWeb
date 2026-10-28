@@ -282,7 +282,7 @@ export default function AppHome() {
           </div>
           <div className={styles.rail}>
             {home.rails.trending.items.map((item) => (
-              <Link key={item.id} href={`/item/${item.id}`} className={styles.railCard} onPointerEnter={() => prefetchItem(item.id)}>
+              <Link key={item.id} href={`/item?id=${encodeURIComponent(item.id)}`} className={styles.railCard} onPointerEnter={() => prefetchItem(item.id)}>
                 <div
                   className={`${styles.cover} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}
@@ -321,7 +321,7 @@ export default function AppHome() {
           ) : (
             feed.map((item) => (
               <article key={item.id} className={styles.card}>
-                <Link href={`/item/${item.id}`} className={styles.cardMain} onPointerEnter={() => prefetchItem(item.id)}>
+                <Link href={`/item?id=${encodeURIComponent(item.id)}`} className={styles.cardMain} onPointerEnter={() => prefetchItem(item.id)}>
                   <div className={styles.cardHead}>
                     <span
                       className={`${styles.mark} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
@@ -369,7 +369,7 @@ export default function AppHome() {
           </div>
           <div className={styles.rail}>
             {home.rails.dropped.items.map((item) => (
-              <Link key={item.id} href={`/item/${item.id}`} className={styles.railCard} onPointerEnter={() => prefetchItem(item.id)}>
+              <Link key={item.id} href={`/item?id=${encodeURIComponent(item.id)}`} className={styles.railCard} onPointerEnter={() => prefetchItem(item.id)}>
                 <div
                   className={`${styles.cover} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}
@@ -389,7 +389,7 @@ export default function AppHome() {
           </div>
           <div className={styles.rail}>
             {home.rails.collections.items.map((item) => (
-              <Link key={`${item.id}-col`} href={`/item/${item.id}`} className={`${styles.railCard} ${styles.railWide}`} onPointerEnter={() => prefetchItem(item.id)}>
+              <Link key={`${item.id}-col`} href={`/item?id=${encodeURIComponent(item.id)}`} className={`${styles.railCard} ${styles.railWide}`} onPointerEnter={() => prefetchItem(item.id)}>
                 <div
                   className={`${styles.cover} ${styles.coverWide} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`}
                   style={artworkStyle(item)}

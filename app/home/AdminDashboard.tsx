@@ -142,7 +142,7 @@ export function AdminDashboard({ profile }: { profile: Profile }) {
           ))
         ) : (
           rows.map((item) => (
-            <Link key={item.id} href={`/item/${item.id}`} className={styles.card} onPointerEnter={() => prefetchItem(item.id)}>
+            <Link key={item.id} href={`/item?id=${encodeURIComponent(item.id)}`} className={styles.card} onPointerEnter={() => prefetchItem(item.id)}>
               <div className={styles.cardMain}>
                 <div className={styles.cardHead}>
                   <span className={`${styles.mark} ${item.buildArtwork ? styles.hasArt : toneClass(item.tone)}`} style={artworkStyle(item)}>

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Spinner } from "@/components/Spinner";
 import { Toast, useToast } from "@/components/Toast";
@@ -53,11 +53,27 @@ function galleryOf(item: CatalogItem) {
 }
 
 export default function ItemPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className={styles.page}>
+          <div className={styles.boot}>
+            <Spinner size={22} />
+          </div>
+        </div>
+      }
+    >
+      <ItemPageInner />
+    </Suspense>
+  );
+}
+
+function ItemPageInner() {
   const profile = useAuthProfile();
-  const params = useParams<{ id: string }>();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const { toast, show, dismiss } = useToast();
-  const id = decodeURIComponent(params?.id ?? "");
+  const id = decodeURIComponent(searchParams.get("id") ?? "");
 
   const [item, setItem] = useState<CatalogItem | null>(() => cachedItem(id));
   const [recs, setRecs] = useState<CatalogItem[] | null>(() => cachedRecs(id));
@@ -368,7 +384,7 @@ export default function ItemPage() {
               {recs.map((it) => (
                 <Link
                   key={it.id}
-                  href={`/item/${it.id}`}
+                  href={`/item?id=${encodeURIComponent(it.id)}`}
                   className={styles.rec}
                   onPointerEnter={() => prefetchItem(it.id)}
                 >

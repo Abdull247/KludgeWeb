@@ -7,6 +7,24 @@ import styles from "../coming-soon.module.css";
 
 type ComingSoonProps = { params: Promise<{ slug: string[] }> };
 
+const COMING_SOON = [
+  "categories",
+  "creators",
+  "playgrounds",
+  "community",
+  "about",
+  "blog",
+  "status",
+  "changelog",
+  "terms",
+  "privacy",
+  "dmca",
+];
+
+export function generateStaticParams() {
+  return COMING_SOON.map((name) => ({ slug: [name] }));
+}
+
 export async function generateMetadata({ params }: ComingSoonProps): Promise<Metadata> {
   const { slug } = await params;
   const name = slug?.[0] || "page";

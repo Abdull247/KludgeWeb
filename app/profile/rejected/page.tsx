@@ -59,7 +59,7 @@ export default function RejectedPage() {
           items.map((item) => (
             <Link
               key={item.id}
-              href={`/item/${item.id}`}
+              href={`/item?id=${encodeURIComponent(item.id)}`}
               className={styles.card}
               onPointerEnter={() => prefetchItem(item.id)}
             >
