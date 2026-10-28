@@ -45,7 +45,7 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<Enve
 
   let res: Response;
   try {
-    res = await fetch(rel, {
+    res = await fetch(apiUrl(rel), {
       ...init,
       headers,
       credentials: "include",
@@ -59,6 +59,14 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<Enve
   return { data: json.data, error: json.error, status: res.status };
 }
 
+export function siteOrigin() {
+  if (typeof window !== "undefined" && window.location?.origin) {
+    return window.location.origin.replace(/\/$/, "");
+  }
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://kludgekit.web.app").replace(/\/$/, "");
+}
+
 export function authStartUrl(provider: "github" | "google") {
-  return `/api/auth/${provider}?next=/home`;
+  const next = `${siteOrigin()}/home`;
+  return apiUrl(`/api/auth/${provider}?next=${encodeURIComponent(next)}`);
 }

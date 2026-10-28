@@ -8,6 +8,13 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "redirects": [
+      {
+        "source": "/api/:path*",
+        "destination": "https://kludgeserver.onrender.com/api/:path*",
+        "type": 302
+      }
+    ],
     "headers": [
       {
         "source": "**/*.@(js|css|woff2)",

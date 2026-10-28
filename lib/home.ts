@@ -1,4 +1,4 @@
-import { api, TEST_TOKEN } from "./api";
+import { api, apiUrl, TEST_TOKEN } from "./api";
 import { cachedItem, cachedRecs, once, patchCachedItem, rememberItem, rememberRecs, seedItems } from "./cache";
 
 export type StatTab = "builds" | "creators" | "apis";
@@ -327,7 +327,7 @@ export async function uploadAsset(file: File, kind: "artwork" | "banner" | "sour
 
   let res: Response;
   try {
-    res = await fetch(`/api/v1/uploads?kind=${kind}`, {
+    res = await fetch(apiUrl(`/api/v1/uploads?kind=${kind}`), {
       method: "POST",
       headers,
       body,
