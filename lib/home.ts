@@ -1,4 +1,5 @@
 import { api, apiUrl, TEST_TOKEN } from "./api";
+import { getSessionToken } from "./session";
 import { cachedItem, cachedRecs, once, patchCachedItem, rememberItem, rememberRecs, seedItems } from "./cache";
 
 export type StatTab = "builds" | "creators" | "apis";
@@ -320,7 +321,8 @@ export function fetchUploadLimits() {
 export async function uploadAsset(file: File, kind: "artwork" | "banner" | "source") {
   const headers = new Headers();
   headers.set("Accept", "application/json");
-  if (TEST_TOKEN) headers.set("Authorization", `Bearer ${TEST_TOKEN}`);
+  const token = TEST_TOKEN || getSessionToken();
+  if (token) headers.set("Authorization", `Bearer ${token}`);
 
   const body = new FormData();
   body.append("file", file);

@@ -1,3 +1,5 @@
+import { clearSessionToken, getSessionToken } from "./session";
+
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "https://kludgeserver.onrender.com").replace(/\/$/, "");
 export const TEST_TOKEN = process.env.NEXT_PUBLIC_TEST_TOKEN ?? "";
 
@@ -37,8 +39,9 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<Enve
   if (init.body && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
   }
-  if (TEST_TOKEN && !headers.has("Authorization")) {
-    headers.set("Authorization", `Bearer ${TEST_TOKEN}`);
+  const token = TEST_TOKEN || getSessionToken();
+  if (token && !headers.has("Authorization")) {
+    headers.set("Authorization", `Bearer ${token}`);
   }
 
   const rel = path.startsWith("/") ? path : `/${path}`;

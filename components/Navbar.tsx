@@ -8,6 +8,7 @@ import { ArrowRight, ChevronDown, Github } from "./Icons";
 import { Spinner } from "./Spinner";
 import { NAV, APP_NAV, ADMIN_NAV } from "@/lib/nav";
 import { apiUrl } from "@/lib/api";
+import { clearSessionToken } from "@/lib/session";
 import { useSession } from "@/lib/useSession";
 import styles from "./Navbar.module.css";
 
@@ -90,6 +91,7 @@ export function Navbar({
     if (loggingOut) return;
     setLoggingOut(true);
     await fetch(apiUrl("/api/auth/logout"), { method: "POST", credentials: "include" }).catch(() => null);
+    clearSessionToken();
     router.replace("/auth");
   };
 

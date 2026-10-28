@@ -8,6 +8,7 @@ import { ArrowLeft, Check, Github, Star, GoogleIcon } from "@/components/Icons";
 import { Spinner } from "@/components/Spinner";
 import { Toast, useToast } from "@/components/Toast";
 import { api, authStartUrl, type Profile } from "@/lib/api";
+import { getSessionToken } from "@/lib/session";
 import styles from "./auth.module.css";
 
 type Provider = "github" | "google";
@@ -21,6 +22,7 @@ export default function AuthPage() {
   const noticed = useRef(false);
 
   useEffect(() => {
+    getSessionToken();
     const params = new URLSearchParams(window.location.search);
     const err = params.get("error");
     if (err && !noticed.current) {

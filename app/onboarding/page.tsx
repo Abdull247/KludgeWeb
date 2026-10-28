@@ -6,6 +6,7 @@ import { Logo } from "@/components/Logo";
 import { Spinner } from "@/components/Spinner";
 import { Toast, useToast } from "@/components/Toast";
 import { api, type Profile } from "@/lib/api";
+import { getSessionToken } from "@/lib/session";
 import styles from "./onboarding.module.css";
 
 export default function OnboardingPage() {
@@ -17,6 +18,7 @@ export default function OnboardingPage() {
   const noticed = useRef(false);
 
   useEffect(() => {
+    getSessionToken();
     api<Profile>("/api/profile/me").then((res) => {
       if (!res.data) {
         router.replace("/auth");
