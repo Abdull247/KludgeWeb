@@ -1,5 +1,6 @@
 import { clearSessionToken, getSessionToken } from "./session";
 
+
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "https://kludgeserver.onrender.com").replace(/\/$/, "");
 export const TEST_TOKEN = process.env.NEXT_PUBLIC_TEST_TOKEN ?? "";
 
@@ -31,6 +32,12 @@ type Envelope<T> = {
 export function apiUrl(path: string) {
   if (!path.startsWith("/")) path = `/${path}`;
   return `${API_URL}${path}`;
+}
+
+// Share links point at the API so crawlers get per-item preview tags,
+// then hand people straight to the app.
+export function shareLink(id: string) {
+  return `${API_URL}/i/${encodeURIComponent(id)}`;
 }
 
 export async function api<T>(path: string, init: RequestInit = {}): Promise<Envelope<T>> {

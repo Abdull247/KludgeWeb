@@ -12,7 +12,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://kludgekit.web.app").replace(/\/$/, "");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Kludge — Share projects & resources for every stack",
     template: "%s",
@@ -26,9 +29,13 @@ export const metadata: Metadata = {
     title: "Kludge — Share projects & resources for every stack",
     description: "Discover, fork and share projects, templates, UI kits and assets for every stack.",
     type: "website",
+    siteName: "Kludge",
+    url: SITE_URL,
+    images: [{ url: "/kludge.png", alt: "Kludge" }],
   },
   twitter: {
     card: "summary_large_image",
+    images: ["/kludge.png"],
   },
 };
 

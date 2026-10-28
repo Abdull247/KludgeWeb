@@ -17,6 +17,7 @@ import {
   X,
 } from "@/components/Icons";
 import { useSession } from "@/lib/useSession";
+import { shareLink } from "@/lib/api";
 import {
   fetchItem,
   fetchRecommends,
@@ -84,6 +85,16 @@ function ItemPageInner() {
   const [rejectReason, setRejectReason] = useState("");
   const [rejecting, setRejecting] = useState(false);
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
+  const [viewer, setViewer] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!viewer) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setViewer(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [viewer]);
 
   useEffect(() => {
     const hit = cachedItem(id);
@@ -154,7 +165,7 @@ function ItemPageInner() {
 
   const share = async () => {
     if (!item) return;
-    const url = typeof window !== "undefined" ? window.location.href : "";
+    const url = shareLink(item.id);
     try {
       if (navigator.share) {
         await navigator.share({ title: item.name, text: item.blurb, url });
@@ -344,10 +355,16 @@ function ItemPageInner() {
         {shots.length > 0 ? (
           <div className={styles.gallery} aria-label={isShot ? "Screenshots" : "Banners"}>
             {shots.map((src) => (
-              <div key={src} className={isShot ? styles.shot : styles.banner}>
+              <button
+                type="button"
+                key={src}
+                className={isShot ? styles.shot : styles.banner}
+                onClick={() => setViewer(src)}
+                aria-label="View image"
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={src} alt="" />
-              </div>
+              </button>
             ))}
           </div>
         ) : null}
@@ -429,6 +446,15 @@ function ItemPageInner() {
           )}
         </section>
       </main>
+
+      {viewer ? (
+        <div className={styles.viewer} role="dialog" aria-modal="true" onClick={() => setViewer(null)}>
+          <button type="button" className={styles.viewerClose} onClick={() => setViewer(null)} aria-label="Close">
+            <X size={14} />
+          </button>
+          <img className={styles.viewerImg} src={viewer} alt="" onClick={(e) => e.stopPropagation()} />
+        </div>
+      ) : null}
 
       {guest ? (
         <button type="button" className={styles.guestChip} onClick={openGuestAuth}>
