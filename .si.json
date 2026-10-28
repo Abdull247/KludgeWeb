@@ -25,6 +25,10 @@
     ".css": {
       "enabled": true,
       "run": "vscode-css-language-server --stdio"
+    },
+    ".html": {
+      "enabled": true,
+      "run": "vscode-html-language-server --stdio"
     }
   }
 }
